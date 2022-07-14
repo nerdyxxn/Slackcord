@@ -1,7 +1,9 @@
 import React from 'react';
 import { Route, Routes } from 'react-router';
-import LogIn from '@pages/Login';
-import SignUp from '@pages/SignUp';
+import loadable from '@loadable/component';
+
+const LogIn = loadable(() => import('@pages/Login'));
+const SignUp = loadable(() => import('@pages/SignUp'));
 
 const App = () => {
   return (
