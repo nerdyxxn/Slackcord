@@ -10,8 +10,9 @@ import {
   Container,
   Success,
 } from './styles';
-import useInput from '@hooks/useInput';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import useInput from '@hooks/useInput';
 
 function SignUp() {
   const [email, onChangeEmail] = useInput('');
@@ -65,7 +66,7 @@ function SignUp() {
 
   return (
     <Container>
-      <Header>Sleckcord</Header>
+      <Header>Slackcord</Header>
       <Form onSubmit={onSubmit}>
         <Label id="email-label">
           <span>이메일 주소</span>
@@ -119,7 +120,7 @@ function SignUp() {
       </Form>
       <LinkContainer>
         이미 회원이신가요?&nbsp;
-        <a href="/login">로그인 하러 가기</a>
+        <Link to="/login">로그인 하러 가기</Link>
       </LinkContainer>
     </Container>
   );
