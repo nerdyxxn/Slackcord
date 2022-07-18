@@ -11,10 +11,13 @@ import {
   Success,
 } from './styles';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import useInput from '@hooks/useInput';
+import useSWR from 'swr';
+import fetcher from '@utils/fetcher';
 
 function SignUp() {
+  const { data, error, mutate } = useSWR('http://localhost:3095/api/users', fetcher);
   const [email, onChangeEmail] = useInput('');
   const [nickname, onChangeNickname] = useInput('');
   const [password, setPassword] = useState('');
@@ -63,6 +66,16 @@ function SignUp() {
     },
     [email, nickname, password, passwordCheck, mismatchError],
   );
+
+  // 로딩중 처리
+  if (data === undefined) {
+    return <div>Loading...</div>;
+  }
+
+  // 로그인 상태이면 channel로 이동시키기
+  if (data) {
+    return <Navigate to="/workspace/channel" />;
+  }
 
   return (
     <Container>

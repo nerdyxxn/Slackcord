@@ -12,13 +12,15 @@ import {
 } from '@pages/SignUp/styles';
 
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import useInput from '@hooks/useInput';
 import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
 
 function LogIn() {
-  const { data, error } = useSWR('http://localhost:3095/api/users', fetcher);
+  const { data, error, mutate } = useSWR('http://localhost:3095/api/users', fetcher, {
+    dedupingInterval: 100000,
+  });
   const [loginError, setLoginError] = useState(false);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
@@ -35,7 +37,7 @@ function LogIn() {
           { withCredentials: true },
         )
         .then((response) => {
-          console.log(response.data);
+          mutate();
         })
         .catch((error) => {
           setLoginError(error.response?.data?.statusCode === 401);
@@ -43,6 +45,16 @@ function LogIn() {
     },
     [email, password],
   );
+
+  // 로딩중 처리
+  if (data === undefined) {
+    return <div>Loading...</div>;
+  }
+
+  // 로그인 성공
+  if (data) {
+    return <Navigate to="/workspace/channel" />;
+  }
 
   return (
     <Container>
