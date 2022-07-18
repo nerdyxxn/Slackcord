@@ -15,9 +15,10 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import useInput from '@hooks/useInput';
 import useSWR from 'swr';
+import fetcher from '@utils/fetcher';
 
 function LogIn() {
-  const {} = useSWR('http://localhost:3095/api/users');
+  const { data, error } = useSWR('http://localhost:3095/api/users', fetcher);
   const [loginError, setLoginError] = useState(false);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
@@ -28,7 +29,11 @@ function LogIn() {
       setLoginError(false);
 
       axios
-        .post('/api/users/login', { email, password }, { withCredentials: true })
+        .post(
+          'http://localhost:3095/api/users/login',
+          { email, password },
+          { withCredentials: true },
+        )
         .then((response) => {
           console.log(response.data);
         })
