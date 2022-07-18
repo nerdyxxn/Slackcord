@@ -37,7 +37,7 @@ function LogIn() {
           { withCredentials: true },
         )
         .then((response) => {
-          mutate();
+          mutate(response.data, false);
         })
         .catch((error) => {
           setLoginError(error.response?.data?.statusCode === 401);
