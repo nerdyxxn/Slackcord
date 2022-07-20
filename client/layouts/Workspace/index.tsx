@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { VFC, useCallback, useState } from 'react';
 import fetcher from '@utils/fetcher';
 import useSWR from 'swr';
 import axios from 'axios';
@@ -17,6 +17,7 @@ import {
   ProfileModal,
   RightMenu,
   WorkspaceButton,
+  WorkspaceModal,
   WorkspaceName,
   Workspaces,
   WorkspaceWrapper,
@@ -27,15 +28,17 @@ import { IUser } from '@typings/db';
 import { Button, Input, Label } from '@pages/SignUp/styles';
 import useInput from '@hooks/useInput';
 import Modal from '@components/Modal';
+import CreateChannelModal from '@components/Modal/ChannelCreate';
+import CreateWorkspaceModal from '@components/Modal/WorkspaceCreate';
 
 const Channel = loadable(() => import('@pages/Channel'));
 const DirectMessage = loadable(() => import('@pages/DirectMessage'));
 
-const Workspace: FC = ({ children }) => {
+const Workspace: VFC = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showCreateWorkspaceModal, setShowCreateWorkspaceModal] = useState(false);
-  const [newWorkspace, onChangeNewWorkspace, setNewWorkspace] = useInput('');
-  const [newUrl, onChangeNewUrl, setNewUrl] = useInput('');
+  const [showWorkspaceModal, setShowWorkspaceModal] = useState(false);
+  const [showCreateChannelModal, setShowCreateChannelModal] = useState(false);
 
   const {
     data: userData,
@@ -65,53 +68,19 @@ const Workspace: FC = ({ children }) => {
     setShowCreateWorkspaceModal(true);
   }, []);
 
-  // 워크스페이스 생성
-  const onCreateWorkspace = useCallback(
-    (e) => {
-      e.preventDefault();
-      if (!newWorkspace || !newWorkspace.trim()) return;
-      if (!newUrl || !newUrl.trim()) return;
-
-      axios
-        .post(
-          'http://localhost:3095/api/workspaces',
-          { workspace: newWorkspace, url: newUrl },
-          { withCredentials: true },
-        )
-        .then(() => {
-          mutate();
-          setShowCreateWorkspaceModal(false);
-          setNewWorkspace('');
-          setNewUrl('');
-          toast.success('워크스페이스가 생성되었습니다!', {
-            position: 'top-right',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-        })
-        .catch((error) => {
-          console.dir(error);
-          toast.error(error.response?.data, {
-            position: 'top-right',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-        });
-    },
-    [newWorkspace, newUrl],
-  );
-
   // Modal 메뉴 닫기
   const onCloseModal = useCallback(() => {
     setShowCreateWorkspaceModal(false);
+    setShowCreateChannelModal(false);
+  }, []);
+
+  const toggleWorkspaceModal = useCallback(() => {
+    setShowWorkspaceModal((prev) => !prev);
+  }, []);
+
+  // 채널 생성
+  const onClickAddChannel = useCallback(() => {
+    setShowCreateChannelModal(true);
   }, []);
 
   // 로그아웃 성공
@@ -129,7 +98,10 @@ const Workspace: FC = ({ children }) => {
               alt={userData.nickname}
             />
             {showUserMenu && (
-              <Menu style={{ right: 0, top: 38 }} onCloseModal={onClickUserProfile}>
+              <Menu
+                show={showUserMenu}
+                style={{ right: 0, top: 38 }}
+                onCloseModal={onClickUserProfile}>
                 <ProfileModal>
                   <img
                     src={gravatar.url(userData.email, { s: '36px', d: 'retro' })}
@@ -159,8 +131,19 @@ const Workspace: FC = ({ children }) => {
           <AddButton onClick={onClickCreateWorkspace}>+</AddButton>
         </Workspaces>
         <Channels>
-          <WorkspaceName>워크스페이스 이름</WorkspaceName>
-          <MenuScroll>메뉴자리</MenuScroll>
+          <WorkspaceName onClick={toggleWorkspaceModal}>Slackcord</WorkspaceName>
+          <MenuScroll>
+            <Menu
+              show={showWorkspaceModal}
+              onCloseModal={toggleWorkspaceModal}
+              style={{ top: 95, left: 80 }}>
+              <WorkspaceModal>
+                <h2>Slackcord</h2>
+                <button onClick={onClickAddChannel}>채널 만들기</button>
+                <button onClick={onLogout}>Logout</button>
+              </WorkspaceModal>
+            </Menu>
+          </MenuScroll>
         </Channels>
         <Chats>
           <Routes>
@@ -169,19 +152,12 @@ const Workspace: FC = ({ children }) => {
           </Routes>
         </Chats>
       </WorkspaceWrapper>
-      <Modal show={showCreateWorkspaceModal} onCloseModal={onCloseModal}>
-        <form onSubmit={onCreateWorkspace}>
-          <Label id="workspace-label">
-            <span>워크스페이스 이름</span>
-            <Input id="workspace" value={newWorkspace} onChange={onChangeNewWorkspace} />
-          </Label>
-          <Label id="workspace-url-label">
-            <span>워크스페이스 url</span>
-            <Input id="workspace-url" value={newUrl} onChange={onChangeNewUrl} />
-          </Label>
-          <Button type="submit">생성하기</Button>
-        </form>
-      </Modal>
+      <CreateWorkspaceModal
+        show={showCreateWorkspaceModal}
+        onCloseModal={onCloseModal}
+        setShowCreateWorkspaceModal={setShowCreateWorkspaceModal}
+      />
+      <CreateChannelModal show={showCreateChannelModal} onCloseModal={onCloseModal} />
       <ToastContainer />
     </div>
   );
