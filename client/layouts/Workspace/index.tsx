@@ -2,7 +2,8 @@ import React, { FC, useCallback, useState } from 'react';
 import fetcher from '@utils/fetcher';
 import useSWR from 'swr';
 import axios from 'axios';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes, Link } from 'react-router-dom';
+import gravatar from 'gravatar';
 import {
   AddButton,
   Channels,
@@ -18,16 +19,21 @@ import {
   Workspaces,
   WorkspaceWrapper,
 } from '@layouts/Workspace/styles';
-import gravatar from 'gravatar';
 import loadable from '@loadable/component';
 import Menu from '@components/Menu';
 import { IUser } from '@typings/db';
+import { Button, Input, Label } from '@pages/SignUp/styles';
+import useInput from '@hooks/useInput';
+import Modal from '@components/Modal';
 
 const Channel = loadable(() => import('@pages/Channel'));
 const DirectMessage = loadable(() => import('@pages/DirectMessage'));
 
 const Workspace: FC = ({ children }) => {
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showCreateWorkspaceModal, setShowCreateWorkspaceModal] = useState(false);
+  const [newWorkspace, onChangeNewWorkspace, setNewWorkspace] = useInput('');
+  const [newUrl, onChangeNewUrl, setNewUrl] = useInput('');
 
   const {
     data: userData,
@@ -47,16 +53,27 @@ const Workspace: FC = ({ children }) => {
   }, []);
 
   // 유저 프로필 메뉴 Toggle
-  const onClickUserProfile = useCallback(() => {
+  const onClickUserProfile = useCallback((e) => {
+    e.stopPropagation();
     setShowUserMenu((prev) => !prev);
   }, []);
 
+  // 워크스페이스 추가 Modal
+  const onClickCreateWorkspace = useCallback(() => {
+    setShowCreateWorkspaceModal(true);
+  }, []);
+
   // 워크스페이스 생성
-  const onClickCreateWorkspace = useCallback(() => {}, []);
+  const onCreateWorkspace = useCallback(() => {}, []);
+
+  // Modal 메뉴 닫기
+  const onCloseModal = useCallback(() => {
+    setShowCreateWorkspaceModal(false);
+  }, []);
 
   // 로그아웃 성공
   if (!userData) {
-    return <Navigate to="/login" />;
+    return <Link to="/login" />;
   }
 
   return (
@@ -88,7 +105,16 @@ const Workspace: FC = ({ children }) => {
       </Header>
       <button onClick={onLogout}>Logout</button>
       <WorkspaceWrapper>
-        <Workspaces></Workspaces>
+        <Workspaces>
+          {userData?.Workspaces.map((ws) => {
+            return (
+              <Link key={ws.id} to={`/workspace/${ws.url}/channel/일반`}>
+                <WorkspaceButton>{ws.name.slice(0, 1).toUpperCase()}</WorkspaceButton>
+              </Link>
+            );
+          })}
+          <AddButton onClick={onClickCreateWorkspace}>+</AddButton>
+        </Workspaces>
         <Channels>
           <WorkspaceName>워크스페이스 이름</WorkspaceName>
           <MenuScroll>메뉴자리</MenuScroll>
@@ -100,6 +126,19 @@ const Workspace: FC = ({ children }) => {
           </Routes>
         </Chats>
       </WorkspaceWrapper>
+      <Modal show={showCreateWorkspaceModal} onCloseModal={onCloseModal}>
+        <form onSubmit={onCreateWorkspace}>
+          <Label id="workspace-label">
+            <span>워크스페이스 이름</span>
+            <Input id="workspace" value={newWorkspace} onChange={onChangeNewWorkspace} />
+          </Label>
+          <Label id="workspace-url-label">
+            <span>워크스페이스 url</span>
+            <Input id="workspaceUrl" value={newUrl} onChange={onChangeNewUrl} />
+          </Label>
+          <Button type="submit">생성하기</Button>
+        </form>
+      </Modal>
     </div>
   );
 };
