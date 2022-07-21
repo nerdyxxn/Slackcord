@@ -48,8 +48,8 @@ const CreateChannelModal: VFC<Props> = ({
           { name: newChannel },
           { withCredentials: true },
         )
-        .then(() => {
-          mutateChannel();
+        .then((response) => {
+          mutateChannel(response.data, false);
           setShowCreateChannelModal(false);
           setShowWorkspaceModal(false);
           setNewChannel('');

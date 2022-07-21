@@ -28,6 +28,7 @@ import { IUser, IChannel } from '@typings/db';
 import CreateChannelModal from '@components/Modal/ChannelCreate';
 import CreateWorkspaceModal from '@components/Modal/WorkspaceCreate';
 import { useParams } from 'react-router';
+import InviteWorkspaceModal from '@components/Modal/InviteWorkspaceModal';
 
 const Channel = loadable(() => import('@pages/Channel'));
 const DirectMessage = loadable(() => import('@pages/DirectMessage'));
@@ -37,6 +38,8 @@ const Workspace: VFC = () => {
   const [showCreateWorkspaceModal, setShowCreateWorkspaceModal] = useState(false);
   const [showWorkspaceModal, setShowWorkspaceModal] = useState(false);
   const [showCreateChannelModal, setShowCreateChannelModal] = useState(false);
+  const [showInviteWorkspaceModal, setShowInviteWorkspaceModal] = useState(false);
+  const [showInviteChannelModal, setShowInviteChannelModal] = useState(false);
   const { workspace } = useParams<{ workspace: string; channel: string }>();
 
   const {
@@ -76,6 +79,7 @@ const Workspace: VFC = () => {
   const onCloseModal = useCallback(() => {
     setShowCreateWorkspaceModal(false);
     setShowCreateChannelModal(false);
+    setShowInviteWorkspaceModal(false);
   }, []);
 
   const toggleWorkspaceModal = useCallback(() => {
@@ -88,7 +92,9 @@ const Workspace: VFC = () => {
   }, []);
 
   // 사용자 초대 Modal
-  const onClickInviteWorkspace = useCallback(() => {}, []);
+  const onClickInviteWorkspace = useCallback(() => {
+    setShowInviteWorkspaceModal(true);
+  }, []);
 
   // 로그아웃 성공
   if (!userData) {
@@ -173,6 +179,11 @@ const Workspace: VFC = () => {
         onCloseModal={onCloseModal}
         setShowCreateChannelModal={setShowCreateChannelModal}
         setShowWorkspaceModal={setShowWorkspaceModal}
+      />
+      <InviteWorkspaceModal
+        show={showInviteWorkspaceModal}
+        onCloseModal={onCloseModal}
+        setShowInviteWorkspaceModal={setShowInviteWorkspaceModal}
       />
       <ToastContainer />
     </div>
