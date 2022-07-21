@@ -74,7 +74,7 @@ function SignUp() {
 
   // 로그인 상태이면 channel로 이동시키기
   if (data) {
-    return <Navigate to="/workspace/channel" />;
+    return <Navigate to="/workspace/sleact/channel/일반" />;
   }
 
   return (

@@ -52,8 +52,9 @@ function LogIn() {
   }
 
   // 로그인 성공
-  if (data) {
-    return <Navigate to="/workspace/channel" />;
+  if (!error && data) {
+    console.log('Login 성공!', data);
+    return <Navigate to="/workspace/sleact/channel/일반" />;
   }
 
   return (

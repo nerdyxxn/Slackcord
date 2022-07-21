@@ -11,7 +11,7 @@ import fetcher from '@utils/fetcher';
 interface Props {
   show: boolean;
   onCloseModal: () => void;
-  setShowCreateWorkspaceModal: (open: boolean) => void;
+  setShowCreateWorkspaceModal: (flag: boolean) => void;
 }
 
 const CreateWorkspaceModal: VFC<Props> = ({ show, onCloseModal, setShowCreateWorkspaceModal }) => {
