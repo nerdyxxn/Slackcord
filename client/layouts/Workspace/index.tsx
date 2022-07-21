@@ -46,18 +46,18 @@ const Workspace: VFC = () => {
     data: userData,
     error,
     mutate,
-  } = useSWR<IUser | false>('http://localhost:3095/api/users', fetcher, {
+  } = useSWR<IUser | false>('/api/users', fetcher, {
     dedupingInterval: 2000,
   });
 
   const { data: channelData, mutate: mutateChannel } = useSWR<IChannel[]>(
-    userData ? `http://localhost:3095/api/workspaces/${workspace}/channels` : null,
+    userData ? `/api/workspaces/${workspace}/channels` : null,
     fetcher,
   );
 
   const onLogout = useCallback(() => {
     axios
-      .post('http://localhost:3095/api/users/logout', null, { withCredentials: true })
+      .post('/api/users/logout', null, { withCredentials: true })
       .then((response) => {
         mutate(false, false);
       })

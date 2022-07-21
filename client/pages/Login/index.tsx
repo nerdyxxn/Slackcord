@@ -18,7 +18,7 @@ import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
 
 function LogIn() {
-  const { data, error, mutate } = useSWR('http://localhost:3095/api/users', fetcher, {
+  const { data, error, mutate } = useSWR('/api/users', fetcher, {
     dedupingInterval: 100000,
   });
   const [loginError, setLoginError] = useState(false);
@@ -31,11 +31,7 @@ function LogIn() {
       setLoginError(false);
 
       axios
-        .post(
-          'http://localhost:3095/api/users/login',
-          { email, password },
-          { withCredentials: true },
-        )
+        .post('/api/users/login', { email, password }, { withCredentials: true })
         .then((response) => {
           mutate(response.data, false);
         })
