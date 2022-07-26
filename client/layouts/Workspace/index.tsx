@@ -27,8 +27,10 @@ import Menu from '@components/Menu';
 import { IUser, IChannel } from '@typings/db';
 import CreateChannelModal from '@components/Modal/ChannelCreate';
 import CreateWorkspaceModal from '@components/Modal/WorkspaceCreate';
-import { useParams } from 'react-router';
+import { Navigate, useParams } from 'react-router';
 import InviteWorkspaceModal from '@components/Modal/InviteWorkspaceModal';
+import ChannelList from '@components/ChannelList';
+import DMList from '@components/DMList';
 
 const Channel = loadable(() => import('@pages/Channel'));
 const DirectMessage = loadable(() => import('@pages/DirectMessage'));
@@ -55,13 +57,21 @@ const Workspace: VFC = () => {
     fetcher,
   );
 
+  const { data: memberData } = useSWR<IUser[]>(
+    userData ? `/api/workspaces/${workspace}/members` : null,
+    fetcher,
+  );
+
   const onLogout = useCallback(() => {
     axios
-      .post('/api/users/logout', null, { withCredentials: true })
-      .then((response) => {
-        mutate(false, false);
+      .post('/api/users/logout', { withCredentials: true })
+      .then(() => {
+        mutate();
       })
-      .catch();
+      .catch((error) => {
+        console.dir(error);
+        toast.error(error.response?.data);
+      });
   }, []);
 
   //유저 프로필 메뉴 Toggle
@@ -97,39 +107,41 @@ const Workspace: VFC = () => {
   }, []);
 
   // 로그아웃 성공
-  if (!userData) {
-    return <Link to="/login" />;
+  if (userData === false) {
+    return <Navigate to="/login" />;
   }
 
   return (
     <div>
       <Header>
-        <RightMenu>
-          <span onClick={onClickUserProfile}>
-            <ProfileImg
-              src={gravatar.url(userData.email, { s: '28px', d: 'retro' })}
-              alt={userData.nickname}
-            />
-            {showUserMenu && (
-              <Menu
-                show={showUserMenu}
-                style={{ right: 0, top: 38 }}
-                onCloseModal={onClickUserProfile}>
-                <ProfileModal>
-                  <img
-                    src={gravatar.url(userData.email, { s: '36px', d: 'retro' })}
-                    alt={userData.nickname}
-                  />
-                  <div>
-                    <span id="profile-name">{userData.nickname}</span>
-                    <span id="profile-active">Active</span>
-                  </div>
-                </ProfileModal>
-                <LogOutButton>LogOut</LogOutButton>
-              </Menu>
-            )}
-          </span>
-        </RightMenu>
+        {userData && (
+          <RightMenu>
+            <span onClick={onClickUserProfile}>
+              <ProfileImg
+                src={gravatar.url(userData.email, { s: '28px', d: 'retro' })}
+                alt={userData.nickname}
+              />
+              {showUserMenu && (
+                <Menu
+                  show={showUserMenu}
+                  style={{ right: 0, top: 38 }}
+                  onCloseModal={onClickUserProfile}>
+                  <ProfileModal>
+                    <img
+                      src={gravatar.url(userData.email, { s: '36px', d: 'retro' })}
+                      alt={userData.nickname}
+                    />
+                    <div>
+                      <span id="profile-name">{userData.nickname}</span>
+                      <span id="profile-active">Active</span>
+                    </div>
+                  </ProfileModal>
+                  <LogOutButton>LogOut</LogOutButton>
+                </Menu>
+              )}
+            </span>
+          </RightMenu>
+        )}
       </Header>
       <button onClick={onLogout}>Logout</button>
       <WorkspaceWrapper>
@@ -157,9 +169,8 @@ const Workspace: VFC = () => {
                 <button onClick={onLogout}>Logout</button>
               </WorkspaceModal>
             </Menu>
-            {channelData?.map((channels) => (
-              <div key={channels.id}>{channels.name}</div>
-            ))}
+            {/* <ChannelList userData={userData} /> */}
+            <DMList userData={userData} />
           </MenuScroll>
         </Channels>
         <Chats>
