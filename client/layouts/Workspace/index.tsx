@@ -136,7 +136,7 @@ const Workspace: VFC = () => {
                       <span id="profile-active">Active</span>
                     </div>
                   </ProfileModal>
-                  <LogOutButton>LogOut</LogOutButton>
+                  <LogOutButton onClick={onLogout}>Logout</LogOutButton>
                 </Menu>
               )}
             </span>

@@ -11,7 +11,7 @@ import {
   Success,
 } from './styles';
 import axios from 'axios';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import useInput from '@hooks/useInput';
 import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
@@ -25,6 +25,7 @@ function SignUp() {
   const [mismatchError, setMismatchError] = useState(false);
   const [signUpError, setSignUpError] = useState('');
   const [signUpSuccess, setSignUpSuccess] = useState(false);
+  const navigate = useNavigate();
 
   const onChangePassword = useCallback(
     (e) => {
@@ -57,6 +58,7 @@ function SignUp() {
           .then((response) => {
             console.log(response);
             setSignUpSuccess(true);
+            navigate('/login');
           })
           .catch((error) => {
             console.log(error);
