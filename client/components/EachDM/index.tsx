@@ -21,6 +21,7 @@ const EachDM: VFC<Props> = ({ member, isOnline }) => {
 
   const date = localStorage.getItem(`${workspace}-${member.id}`) || 0;
 
+  // :workspace 내부의 :id가 보낸 안 읽은 채팅 수를 가져옴
   const { data: count, mutate } = useSWR<number>(
     userData ? `/api/workspaces/${workspace}/dms/${member.id}/unreads?after=${date}` : null,
     fetcher,

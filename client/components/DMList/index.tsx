@@ -6,20 +6,19 @@ import { IUser, IUserWithOnline } from '@typings/db';
 import fetcher from '@utils/fetcher';
 import EachDM from '@components/EachDM';
 
-interface Props {
-  userData?: IUser;
-}
-
-const DMList: FC<Props> = ({ userData }) => {
+const DMList = () => {
   const { workspace } = useParams<{ workspace: string; channel: string }>();
+  const [channelCollapse, setChannelCollapse] = useState(false);
+  const [onlineList, setOnlineList] = useState<number[]>([]);
+
+  const { data: userData } = useSWR<IUser>('/api/users', fetcher, {
+    dedupingInterval: 2000,
+  });
 
   const { data: memberData } = useSWR<IUserWithOnline[]>(
     userData ? `/api/workspaces/${workspace}/members` : null,
     fetcher,
   );
-
-  const [channelCollapse, setChannelCollapse] = useState(false);
-  const [onlineList, setOnlineList] = useState<number[]>([]);
 
   const toggleChannelCollapse = useCallback(() => {
     setChannelCollapse((prev) => !prev);

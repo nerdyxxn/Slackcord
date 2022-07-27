@@ -169,8 +169,8 @@ const Workspace: VFC = () => {
                 <button onClick={onLogout}>Logout</button>
               </WorkspaceModal>
             </Menu>
-            {/* <ChannelList userData={userData} /> */}
-            <DMList userData={userData} />
+            <ChannelList />
+            <DMList />
           </MenuScroll>
         </Channels>
         <Chats>
