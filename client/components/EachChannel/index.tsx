@@ -25,7 +25,7 @@ const EachChannel: FC<Props> = ({ channel }) => {
   );
 
   useEffect(() => {
-    if (location.pathname === `/workspace/${workspace}/channels/${channel.name}`) {
+    if (location.pathname === `/workspace/${workspace}/channel/${channel.name}`) {
       mutate(0);
     }
   }, [mutate, location.pathname, workspace, channel]);
