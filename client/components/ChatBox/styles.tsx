@@ -12,15 +12,20 @@ export const Form = styled.form`
   color: rgb(29, 28, 29);
   font-size: 15px;
   width: 100%;
-  border-radius: 4px;
-  border: 1px solid rgb(29, 28, 29);
+  border-radius: 8px;
+  border: 1px solid lightgray;
 `;
 
 // export const MentionsTextarea = styled(MentionsInput)`
-export const MentionsTextarea = styled.div`
+export const MentionsTextarea = styled.textarea`
   font-family: Slack-Lato, appleLogo, sans-serif;
   font-size: 15px;
   padding: 8px 9px;
+  width: 100%;
+  border: none;
+  resize: none !important;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
   & strong {
     background: skyblue;
   }
@@ -28,7 +33,7 @@ export const MentionsTextarea = styled.div`
     height: 44px;
     padding: 9px 10px !important;
     outline: none !important;
-    border-radius: 4px !important;
+    border-radius: 8px !important;
     resize: none !important;
     line-height: 22px;
     border: none;
@@ -51,8 +56,8 @@ export const Toolbox = styled.div`
   display: flex;
   border-top: 1px solid rgb(221, 221, 221);
   align-items: center;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 `;
 
 export const SendButton = styled.button`
