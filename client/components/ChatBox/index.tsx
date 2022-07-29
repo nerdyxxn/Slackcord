@@ -1,5 +1,5 @@
-import React, { FC, useCallback } from 'react';
 import { ChatArea, Form, MentionsTextarea, SendButton, Toolbox } from '@components/ChatBox/styles';
+import React, { FC, useCallback } from 'react';
 
 interface Props {
   chat: string;
