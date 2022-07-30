@@ -72,7 +72,7 @@ const Workspace: VFC = () => {
         console.dir(error);
         toast.error(error.response?.data);
       });
-  }, []);
+  }, [mutate]);
 
   //유저 프로필 메뉴 Toggle
   const onClickUserProfile = useCallback((e) => {
