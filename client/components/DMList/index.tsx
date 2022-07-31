@@ -5,11 +5,10 @@ import { CollapseButton } from '@components/DMList/styles';
 import { IUser, IUserWithOnline } from '@typings/db';
 import fetcher from '@utils/fetcher';
 import EachDM from '@components/EachDM';
+import useSocket from '@hooks/useSocket';
 
 const DMList = () => {
   const { workspace } = useParams<{ workspace: string; channel: string }>();
-  const [channelCollapse, setChannelCollapse] = useState(false);
-  const [onlineList, setOnlineList] = useState<number[]>([]);
 
   const { data: userData } = useSWR<IUser>('/api/users', fetcher, {
     dedupingInterval: 2000,
@@ -20,6 +19,10 @@ const DMList = () => {
     fetcher,
   );
 
+  const [channelCollapse, setChannelCollapse] = useState(false);
+  const [onlineList, setOnlineList] = useState<number[]>([]);
+  const [socket, disconnect] = useSocket(workspace);
+
   const toggleChannelCollapse = useCallback(() => {
     setChannelCollapse((prev) => !prev);
   }, []);
@@ -28,6 +31,17 @@ const DMList = () => {
     console.log('DMList : Workspace 변경!', workspace);
     setOnlineList([]);
   }, [workspace]);
+
+  useEffect(() => {
+    socket?.on('onlineList', (data: number[]) => {
+      setOnlineList(data);
+    });
+    //console.log('socket on dm', socket?.hasListeners('dm'), socket);
+    return () => {
+      //console.log('socket off dm', socket?.hasListeners('dm'));
+      socket?.off('onlineList');
+    };
+  }, [socket]);
 
   return (
     <div>
