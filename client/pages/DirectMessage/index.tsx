@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Container, Header } from './styles';
 import gravatar from 'gravatar';
 import useSWR from 'swr';
@@ -23,7 +23,7 @@ const DirectMessage = () => {
 
   //:workspace 내부의 :id와 나눈 dm을 가져옴
   const { data: chatData, mutate: mutateChat } = useSWR<IDM[]>(
-    `/api//workspaces/${workspace}/dms/${id}/chats?perPage=20&page=1`,
+    `/api/workspaces/${workspace}/dms/${id}/chats?perPage=20&page=1`,
     fetcher,
   );
 
@@ -62,7 +62,7 @@ const DirectMessage = () => {
         />
         <span>{userData.nickname}</span>
       </Header>
-      <ChatList />
+      <ChatList chatData={chatData} />
       <ChatBox chat={chat} onChangeChat={onChangeChat} onSubmitForm={onSubmitForm} />
       <ToastContainer />
     </Container>

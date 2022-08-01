@@ -21,7 +21,7 @@ const DMList = () => {
 
   const [channelCollapse, setChannelCollapse] = useState(false);
   const [onlineList, setOnlineList] = useState<number[]>([]);
-  const [socket, disconnect] = useSocket(workspace);
+  const [socket] = useSocket(workspace);
 
   const toggleChannelCollapse = useCallback(() => {
     setChannelCollapse((prev) => !prev);

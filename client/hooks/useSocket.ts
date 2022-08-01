@@ -10,7 +10,7 @@ const useSocket = (workspace?: string): [SocketIOClient.Socket | undefined, () =
       sockets[workspace].disconnect();
       delete sockets[workspace];
     }
-  }, []);
+  }, [workspace]);
 
   if (!workspace) {
     return [undefined, disconnect];
