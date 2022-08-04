@@ -17,8 +17,8 @@ const Channel = () => {
 
   return (
     <Container>
-      <Header>채널!</Header>
-      <ChatList />
+      <Header># {channel}</Header>
+      {/* <ChatList /> */}
       <ChatBox
         chat={chat}
         onChangeChat={onChangeChat}

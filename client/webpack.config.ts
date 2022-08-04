@@ -23,6 +23,7 @@ const config: Configuration = {
       '@layouts': path.resolve(__dirname, 'layouts'),
       '@pages': path.resolve(__dirname, 'pages'),
       '@utils': path.resolve(__dirname, 'utils'),
+      '@styles': path.resolve(__dirname, 'styles'),
       '@typings': path.resolve(__dirname, 'typings'),
     },
   },

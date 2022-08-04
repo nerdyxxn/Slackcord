@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "forceConsistentCasingInFileNames": false,
     "esModuleInterop": true,
     "sourceMap": true,
     "lib": ["ES2020", "DOM"],
@@ -16,6 +17,7 @@
       "@layouts/*": ["layouts/*"],
       "@pages/*": ["pages/*"],
       "@utils/*": ["utils/*"],
+      "@styles/*": ["styles/*"],
       "@typings/*": ["typings/*"]
     }
   }

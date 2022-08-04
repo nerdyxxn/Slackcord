@@ -11,6 +11,7 @@ import ChatBox from '@components/ChatBox';
 import ChatList from '@components/ChatList';
 import useInput from '@hooks/useInput';
 import { IDM } from '@typings/db';
+import makeChatSection from '../../utils/makeChatSection';
 
 const DirectMessage = () => {
   const { workspace, id } = useParams<{ workspace: string; id: string }>();
@@ -49,6 +50,8 @@ const DirectMessage = () => {
     [chat],
   );
 
+  const chatSections = makeChatSection(chatData ? [...chatData].reverse() : []);
+
   if (!userData || !myData) {
     return null;
   }
@@ -62,7 +65,7 @@ const DirectMessage = () => {
         />
         <span>{userData.nickname}</span>
       </Header>
-      <ChatList chatData={chatData} />
+      <ChatList chatSections={chatSections} />
       <ChatBox chat={chat} onChangeChat={onChangeChat} onSubmitForm={onSubmitForm} />
       <ToastContainer />
     </Container>
