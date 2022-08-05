@@ -1,17 +1,18 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { Container, Header } from './styles';
 import gravatar from 'gravatar';
 import useSWR from 'swr';
+import useSWRInfinite from 'swr/infinite';
 import { useParams } from 'react-router';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { IDM } from '@typings/db';
 import fetcher from '@utils/fetcher';
 import ChatBox from '@components/ChatBox';
 import ChatList from '@components/ChatList';
 import useInput from '@hooks/useInput';
-import { IDM } from '@typings/db';
-import makeChatSection from '../../utils/makeChatSection';
+import makeChatSection from '@utils/makeChatSection';
 
 const DirectMessage = () => {
   const { workspace, id } = useParams<{ workspace: string; id: string }>();
@@ -23,12 +24,20 @@ const DirectMessage = () => {
   const { data: myData } = useSWR('/api/users', fetcher);
 
   //:workspace 내부의 :id와 나눈 dm을 가져옴
-  const { data: chatData, mutate: mutateChat } = useSWR<IDM[]>(
-    `/api/workspaces/${workspace}/dms/${id}/chats?perPage=20&page=1`,
+  const {
+    data: chatData,
+    mutate: mutateChat,
+    setSize,
+  } = useSWRInfinite<IDM[]>(
+    (index) => `/api/workspaces/${workspace}/dms/${id}/chats?perPage=20&page=${index + 1}`,
     fetcher,
   );
+  const isEmpty = chatData?.[0]?.length === 0;
+  const isReachingEnd =
+    isEmpty || (chatData && chatData[chatData.length - 1]?.length < 20) || false;
 
   const [chat, onChangeChat, setChat] = useInput('');
+  const scrollbarRef = useRef(null);
 
   const onSubmitForm = useCallback(
     (e) => {
@@ -50,7 +59,7 @@ const DirectMessage = () => {
     [chat],
   );
 
-  const chatSections = makeChatSection(chatData ? [...chatData].reverse() : []);
+  const chatSections = makeChatSection(chatData ? chatData.flat().reverse() : []);
 
   if (!userData || !myData) {
     return null;
@@ -65,7 +74,13 @@ const DirectMessage = () => {
         />
         <span>{userData.nickname}</span>
       </Header>
-      <ChatList chatSections={chatSections} />
+      <ChatList
+        chatSections={chatSections}
+        scrollbarRef={scrollbarRef}
+        setSize={setSize}
+        isEmpty={isEmpty}
+        isReachingEnd={isReachingEnd}
+      />
       <ChatBox chat={chat} onChangeChat={onChangeChat} onSubmitForm={onSubmitForm} />
       <ToastContainer />
     </Container>
