@@ -14,6 +14,7 @@ import ChatList from '@components/ChatList';
 import useInput from '@hooks/useInput';
 import makeChatSection from '@utils/makeChatSection';
 import { Scrollbars } from 'react-custom-scrollbars';
+import useSocket from '@hooks/useSocket';
 
 const DirectMessage = () => {
   const { workspace, id } = useParams<{ workspace: string; id: string }>();
@@ -33,10 +34,11 @@ const DirectMessage = () => {
     (index) => `/api/workspaces/${workspace}/dms/${id}/chats?perPage=20&page=${index + 1}`,
     fetcher,
   );
+
+  const [socket] = useSocket(workspace);
   const isEmpty = chatData?.[0]?.length === 0;
   const isReachingEnd =
     isEmpty || (chatData && chatData[chatData.length - 1]?.length < 20) || false;
-
   const [chat, onChangeChat, setChat] = useInput('');
   const scrollbarRef = useRef<Scrollbars>(null);
 
@@ -77,7 +79,45 @@ const DirectMessage = () => {
     [chat, chatData, myData, userData, workspace, id],
   );
 
-  const chatSections = makeChatSection(chatData ? chatData.flat().reverse() : []);
+  // DM 데이터 처리
+  const onMessage = useCallback(
+    (data: IDM) => {
+      if (data.SenderId === Number(id) && myData.id !== Number(id)) {
+        mutateChat((chatData) => {
+          chatData?.[0].unshift(data);
+          return chatData;
+        }, false).then(() => {
+          if (scrollbarRef.current) {
+            if (
+              scrollbarRef.current.getScrollHeight() <
+              scrollbarRef.current.getClientHeight() + scrollbarRef.current.getScrollTop() + 150
+            ) {
+              console.log('scrollToBottom!', scrollbarRef.current?.getValues());
+              setTimeout(() => {
+                scrollbarRef.current?.scrollToBottom();
+              }, 100);
+            } else {
+              toast.success('새 메시지가 도착했습니다.', {
+                onClick() {
+                  scrollbarRef.current?.scrollToBottom();
+                },
+                closeOnClick: true,
+              });
+            }
+          }
+        });
+      }
+    },
+    [id, myData, mutateChat],
+  );
+
+  useEffect(() => {
+    socket?.on('dm', onMessage);
+
+    return () => {
+      socket?.off('dm', onMessage);
+    };
+  }, [socket, onMessage]);
 
   // 페이지 로딩 시, 스크롤바 제일 아래로 보내기
   useEffect(() => {
@@ -89,6 +129,8 @@ const DirectMessage = () => {
   if (!userData || !myData) {
     return null;
   }
+
+  const chatSections = makeChatSection(chatData ? chatData.flat().reverse() : []);
 
   return (
     <Container>
