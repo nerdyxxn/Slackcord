@@ -67,10 +67,10 @@ const Workspace: VFC = () => {
 
   const [socket, disconnect] = useSocket(workspace);
 
+  // 워크스페이스, 채널이 로딩 완료되었을 때 서버에 로그인했음을 알리는 이벤트
   useEffect(() => {
     if (channelData && userData && socket) {
       console.log(socket);
-      // 워크스페이스, 채널이 로딩 완료되었을 때 서버에 로그인했음을 알리는 이벤트
       socket.emit('login', { id: userData.id, channels: channelData.map((v) => v.id) });
     }
   }, [socket, channelData, userData]);
@@ -162,7 +162,7 @@ const Workspace: VFC = () => {
           </RightMenu>
         )}
       </Header>
-      <button onClick={onLogout}>Logout</button>
+      {/* <button onClick={onLogout}>Logout</button> */}
       <WorkspaceWrapper>
         <Workspaces>
           {userData?.Workspaces.map((ws) => {

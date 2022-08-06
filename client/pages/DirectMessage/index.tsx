@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, VFC } from 'react';
 import { Container, Header } from './styles';
 import gravatar from 'gravatar';
 import useSWR from 'swr';
@@ -13,6 +13,7 @@ import ChatBox from '@components/ChatBox';
 import ChatList from '@components/ChatList';
 import useInput from '@hooks/useInput';
 import makeChatSection from '@utils/makeChatSection';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 const DirectMessage = () => {
   const { workspace, id } = useParams<{ workspace: string; id: string }>();
@@ -37,18 +38,35 @@ const DirectMessage = () => {
     isEmpty || (chatData && chatData[chatData.length - 1]?.length < 20) || false;
 
   const [chat, onChangeChat, setChat] = useInput('');
-  const scrollbarRef = useRef(null);
+  const scrollbarRef = useRef<Scrollbars>(null);
 
   const onSubmitForm = useCallback(
     (e) => {
       e.preventDefault();
-      if (chat?.trim()) {
-        //:workspace 내부의 :id와 나눈 dm을 저장
+      if (chat?.trim() && chatData) {
+        const savedChat = chat;
+        // Optimistic UI 적용
+        mutateChat((prevChatData) => {
+          prevChatData?.[0].unshift({
+            id: (chatData[0][0]?.id || 0) + 1,
+            content: savedChat,
+            SenderId: myData.id,
+            Sender: myData,
+            ReceiverId: userData.id,
+            Receiver: userData,
+            createdAt: new Date(),
+          });
+          return prevChatData;
+        }, false).then(() => {
+          setChat('');
+          scrollbarRef.current?.scrollToBottom();
+        });
+
+        //:workspace 내부의 :id와 나눈 dm을 저장 (채팅 입력)
         axios
           .post(`/api/workspaces/${workspace}/dms/${id}/chats`, { content: chat })
           .then(() => {
             mutateChat();
-            setChat('');
           })
           .catch((error) => {
             console.dir(error);
@@ -56,10 +74,17 @@ const DirectMessage = () => {
           });
       }
     },
-    [chat],
+    [chat, chatData, myData, userData, workspace, id],
   );
 
   const chatSections = makeChatSection(chatData ? chatData.flat().reverse() : []);
+
+  // 페이지 로딩 시, 스크롤바 제일 아래로 보내기
+  useEffect(() => {
+    if (chatData?.length === 1) {
+      scrollbarRef.current?.scrollToBottom();
+    }
+  }, [chatData]);
 
   if (!userData || !myData) {
     return null;
