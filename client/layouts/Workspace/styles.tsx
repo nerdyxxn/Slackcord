@@ -55,6 +55,7 @@ export const LogOutButton = styled.button`
 `;
 
 export const WorkspaceWrapper = styled.div`
+  height: 100vh;
   display: flex;
   flex: 1;
 `;

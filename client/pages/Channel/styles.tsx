@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 export const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
-  height: calc(100vh - 38px);
+  height: 100vh;
   flex-flow: column;
   position: relative;
 `;
@@ -19,18 +19,18 @@ export const Header = styled.header`
   align-items: center;
 
   & .header-right {
-    display: 'flex';
+    display: flex;
     flex: 1;
-    justify-content: 'flex-end';
-    align-items: 'center';
+    justify-content: flex-end;
+    align-items: center;
   }
 `;
 
 export const ChannelMemberWrapper = styled.div`
-  display: 'flex';
+  display: flex;
   flex: 1;
-  justify-content: 'flex-end';
-  align-items: 'center';
+  justify-content: flex-end;
+  align-items: center;
 `;
 
 export const DragOver = styled.div`
