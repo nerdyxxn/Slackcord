@@ -1,9 +1,8 @@
 import React, { FC, useEffect } from 'react';
 import { IChannel, IUser } from '@typings/db';
-import { useLocation, useParams } from 'react-router-dom';
+import { NavLink, useLocation, useParams } from 'react-router-dom';
 import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
-import { NavLink } from 'react-router-dom';
 
 interface Props {
   channel: IChannel;
@@ -26,9 +25,9 @@ const EachChannel: FC<Props> = ({ channel }) => {
   );
 
   useEffect(() => {
-    console.log(location);
-    if (location.pathname === `/workspace/${workspace}/channel/${channel.name}`) {
-      console.log('if문 진입');
+    if (
+      location.pathname === `/workspace/${workspace}/channel/${encodeURIComponent(channel.name)}`
+    ) {
       mutate(0);
     }
   }, [mutate, location.pathname, workspace, channel]);
@@ -37,7 +36,7 @@ const EachChannel: FC<Props> = ({ channel }) => {
     <NavLink
       key={channel.name}
       className={({ isActive }) => (isActive ? 'selected' : '')}
-      to={`/workspace/${workspace}/channel/${channel.name}`}>
+      to={`/workspace/${workspace}/channel/${encodeURIComponent(channel.name)}`}>
       <span className={count && count > 0 ? 'bold' : undefined}># {channel.name}</span>
       {(count && count > 0 && <span className="count">{count}</span>) || null}
     </NavLink>

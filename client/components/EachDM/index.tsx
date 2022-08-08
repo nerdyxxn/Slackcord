@@ -1,10 +1,8 @@
 import React, { useEffect, VFC } from 'react';
-import { NavLink } from 'react-router-dom';
-import { useParams } from 'react-router';
+import { NavLink, useLocation, useParams } from 'react-router-dom';
 import useSWR from 'swr';
 import { IUser } from '@typings/db';
 import fetcher from '@utils/fetcher';
-import { useLocation } from 'react-router';
 
 interface Props {
   member: IUser;
