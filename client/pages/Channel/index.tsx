@@ -26,13 +26,11 @@ const Channel = () => {
   const { data: userData } = useSWR<IUser>(`/api/users`, fetcher);
 
   //:workspace 내부의 :channel 정보를 가져옴
-  //const { data: channelsData } = useSWR<IChannel[]>(
-  //`/api/workspaces/${workspace}/channels`,
-  const { data: channelData } = useSWR<IChannel>(
-    `/api/workspaces/${workspace}/channels/${channel}`,
+  const { data: channelsData } = useSWR<IChannel[]>(
+    `/api/workspaces/${workspace}/channels`,
     fetcher,
   );
-  //const channelData = channelsData?.find((v) => v.name === channel);
+  const channelData = channelsData?.find((v) => v.name === channel);
 
   //:workspace 내부의 :channel의 채팅을 가져옴
   const {
@@ -45,6 +43,15 @@ const Channel = () => {
         index + 1
       }`,
     fetcher,
+    {
+      onSuccess(data) {
+        if (data?.length === 1) {
+          setTimeout(() => {
+            scrollbarRef.current?.scrollToBottom();
+          }, 100);
+        }
+      },
+    },
   );
 
   //:workspace 내부의 :channel의 멤버 목록을 가져옴
@@ -79,8 +86,12 @@ const Channel = () => {
           });
           return prevChatData;
         }, false).then(() => {
+          localStorage.setItem(`${workspace}-${channel}`, new Date().getTime().toString());
           setChat('');
-          scrollbarRef.current?.scrollToBottom();
+          if (scrollbarRef.current) {
+            console.log('scrollToBottom!', scrollbarRef.current?.getValues());
+            scrollbarRef.current?.scrollToBottom();
+          }
         });
 
         //:workspace 내부의 :channel의 채팅을 저장(채팅 입력)
@@ -138,6 +149,11 @@ const Channel = () => {
     };
   }, [socket, onMessage]);
 
+  // 페이지 진입 시 시점 localStorage에 저장
+  useEffect(() => {
+    localStorage.setItem(`${workspace}-${channel}`, new Date().getTime().toString());
+  }, [workspace, channel]);
+
   // 클릭 시 유저 초대 Modal 오픈
   const onClickInviteChannel = useCallback(() => {
     setShowInviteChannelModal(true);
@@ -148,7 +164,7 @@ const Channel = () => {
     setShowInviteChannelModal(false);
   }, []);
 
-  if (!channelData) {
+  if (channelsData && !channelData) {
     return <Navigate to={`/workspace/${workspace}/channel/일반`} />;
   }
 

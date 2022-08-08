@@ -33,6 +33,15 @@ const DirectMessage = () => {
   } = useSWRInfinite<IDM[]>(
     (index) => `/api/workspaces/${workspace}/dms/${id}/chats?perPage=20&page=${index + 1}`,
     fetcher,
+    {
+      onSuccess(data) {
+        if (data?.length === 1) {
+          setTimeout(() => {
+            scrollbarRef.current?.scrollToBottom();
+          }, 100);
+        }
+      },
+    },
   );
 
   const [socket] = useSocket(workspace);
@@ -60,8 +69,12 @@ const DirectMessage = () => {
           });
           return prevChatData;
         }, false).then(() => {
+          localStorage.setItem(`${workspace}-${id}`, new Date().getTime().toString());
           setChat('');
-          scrollbarRef.current?.scrollToBottom();
+          if (scrollbarRef.current) {
+            console.log('scrollToBottom!', scrollbarRef.current?.getValues());
+            scrollbarRef.current?.scrollToBottom();
+          }
         });
 
         //:workspace 내부의 :id와 나눈 dm을 저장 (채팅 입력)
@@ -118,6 +131,11 @@ const DirectMessage = () => {
       socket?.off('dm', onMessage);
     };
   }, [socket, onMessage]);
+
+  // 페이지 진입 시 시점 localStorage에 저장
+  useEffect(() => {
+    localStorage.setItem(`${workspace}-${id}`, new Date().getTime().toString());
+  }, [workspace, id]);
 
   // 페이지 로딩 시, 스크롤바 제일 아래로 보내기
   useEffect(() => {
