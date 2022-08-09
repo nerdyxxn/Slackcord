@@ -132,7 +132,7 @@ const Workspace: VFC = () => {
 
   return (
     <div>
-      <Header>
+      {/* <Header>
         {userData && (
           <RightMenu>
             <span onClick={onClickUserProfile}>
@@ -161,7 +161,7 @@ const Workspace: VFC = () => {
             </span>
           </RightMenu>
         )}
-      </Header>
+      </Header> */}
       {/* <button onClick={onLogout}>Logout</button> */}
       <WorkspaceWrapper>
         <Workspaces>
