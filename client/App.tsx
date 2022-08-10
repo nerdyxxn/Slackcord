@@ -6,7 +6,7 @@ import Reset from '@styles/Reset';
 
 const LogIn = loadable(() => import('@pages/Login'));
 const SignUp = loadable(() => import('@pages/SignUp'));
-const Workspace = loadable(() => import('@layouts/Workspace'));
+const Workspace = loadable(() => import('@pages/Workspace'));
 
 const App = () => {
   return (

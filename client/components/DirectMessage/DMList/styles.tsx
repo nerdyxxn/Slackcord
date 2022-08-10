@@ -3,14 +3,14 @@ import styled from '@emotion/styled';
 export const CollapseButton = styled.button<{ collapse: boolean }>`
   background: transparent;
   border: none;
-  width: 26px;
-  height: 26px;
+  height: 36px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: #bcabbc;
   margin-left: 10px;
   cursor: pointer;
+  font-size: 15px;
   ${({ collapse }) =>
     collapse &&
     `

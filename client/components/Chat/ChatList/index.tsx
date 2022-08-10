@@ -1,5 +1,5 @@
 import React, { RefObject, useCallback, useEffect, useRef, VFC } from 'react';
-import { ChatZone, Section, StickyHeader } from '@components/ChatList/styles';
+import { ChatZone, Section, StickyHeader } from '@components/Chat/ChatList/styles';
 import { IChat, IDM } from '@typings/db';
 import Chat from '@components/Chat';
 import { Scrollbars } from 'react-custom-scrollbars';

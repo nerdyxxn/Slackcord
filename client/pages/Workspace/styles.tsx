@@ -120,7 +120,7 @@ export const Channels = styled.nav`
   }
 `;
 
-export const WorkspaceName = styled.button`
+export const WorkspaceName = styled.p`
   height: 64px;
   line-height: 64px;
   border: none;
@@ -138,10 +138,9 @@ export const WorkspaceName = styled.button`
   padding-left: 16px;
   margin: 0;
   color: white;
-  cursor: pointer;
 `;
 
-export const MenuScroll = styled.div`
+export const MenuList = styled.div`
   height: calc(100vh - 102px);
   overflow-y: auto;
 `;

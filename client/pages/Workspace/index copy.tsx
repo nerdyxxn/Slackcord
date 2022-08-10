@@ -12,7 +12,7 @@ import {
   Chats,
   Header,
   LogOutButton,
-  MenuScroll,
+  MenuList,
   ProfileImg,
   ProfileModal,
   RightMenu,
@@ -21,7 +21,7 @@ import {
   WorkspaceName,
   Workspaces,
   WorkspaceWrapper,
-} from '@layouts/Workspace/styles';
+} from '@pages/Workspace/styles';
 import loadable from '@loadable/component';
 import Menu from '@components/Menu';
 import { IUser, IChannel } from '@typings/db';
@@ -29,12 +29,12 @@ import CreateChannelModal from '@components/Modal/ChannelCreate';
 import CreateWorkspaceModal from '@components/Modal/WorkspaceCreate';
 import { Navigate, useParams } from 'react-router';
 import InviteWorkspaceModal from '@components/Modal/InviteWorkspaceModal';
-import ChannelList from '@components/ChannelList';
-import DMList from '@components/DMList';
+import DMList from '@components/DirectMessage/DMList';
 import useSocket from '@hooks/useSocket';
+import ChannelList from '@components/Channel/ChannelList';
 
-const Channel = loadable(() => import('@pages/Channel'));
-const DirectMessage = loadable(() => import('@pages/DirectMessage'));
+const Channel = loadable(() => import('@components/Channel'));
+const DirectMessage = loadable(() => import('@components/DirectMessage'));
 
 const Workspace: VFC = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -176,11 +176,11 @@ const Workspace: VFC = () => {
         </Workspaces>
         <Channels>
           <WorkspaceName onClick={toggleWorkspaceModal}>{workspace}</WorkspaceName>
-          <MenuScroll>
+          <MenuList>
             <Menu
               show={showWorkspaceModal}
               onCloseModal={toggleWorkspaceModal}
-              style={{ top: 95, left: 80 }}>
+              style={{ top: 60, left: 80 }}>
               <WorkspaceModal>
                 <h2>{workspace}</h2>
                 <button onClick={onClickInviteWorkspace}>워크스페이스에 사용자 초대</button>
@@ -190,7 +190,7 @@ const Workspace: VFC = () => {
             </Menu>
             <ChannelList />
             <DMList />
-          </MenuScroll>
+          </MenuList>
         </Channels>
         <Chats>
           <Routes>

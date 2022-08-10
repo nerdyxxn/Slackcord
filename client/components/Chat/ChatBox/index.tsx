@@ -5,7 +5,7 @@ import {
   MentionsTextarea,
   SendButton,
   Toolbox,
-} from '@components/ChatBox/styles';
+} from '@components/Chat/ChatBox/styles';
 import React, { FC, useCallback, useEffect, useRef } from 'react';
 import autosize from 'autosize';
 import { MentionsInput, Mention, SuggestionDataItem } from 'react-mentions';

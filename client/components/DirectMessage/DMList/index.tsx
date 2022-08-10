@@ -1,10 +1,10 @@
 import React, { FC, useState, useCallback, useEffect } from 'react';
 import { useParams } from 'react-router';
 import useSWR from 'swr';
-import { CollapseButton } from '@components/DMList/styles';
+import { CollapseButton } from '@components/DirectMessage/DMList/styles';
 import { IUser, IUserWithOnline } from '@typings/db';
 import fetcher from '@utils/fetcher';
-import EachDM from '@components/EachDM';
+import EachDM from '@components/DirectMessage/EachDM';
 import useSocket from '@hooks/useSocket';
 
 const DMList = () => {
@@ -45,16 +45,14 @@ const DMList = () => {
 
   return (
     <div>
-      <h2>
-        <CollapseButton collapse={channelCollapse} onClick={toggleChannelCollapse}>
-          <i
-            className="c-icon p-channel_sidebar__section_heading_expand p-channel_sidebar__section_heading_expand--show_more_feature c-icon--caret-right c-icon--inherit c-icon--inline"
-            data-qa="channel-section-collapse"
-            aria-hidden="true"
-          />
-        </CollapseButton>
+      <CollapseButton collapse={channelCollapse} onClick={toggleChannelCollapse}>
+        <i
+          className="c-icon p-channel_sidebar__section_heading_expand p-channel_sidebar__section_heading_expand--show_more_feature c-icon--caret-right c-icon--inherit c-icon--inline"
+          data-qa="channel-section-collapse"
+          aria-hidden="true"
+        />
         <span>Direct Messages</span>
-      </h2>
+      </CollapseButton>
       <div>
         {!channelCollapse &&
           memberData?.map((member) => {

@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react';
-import { CollapseButton } from '@components/ChannelList/styles';
+import { CollapseButton } from '@components/Channel/ChannelList/styles';
 import useSWR from 'swr';
 import { useParams } from 'react-router';
 import { IChannel, IUser } from '@typings/db';
 import fetcher from '@utils/fetcher';
-import EachChannel from '@components/EachChannel';
+import EachChannel from '@components/Channel/EachChannel';
 
 const ChannelList = () => {
   const { workspace } = useParams<{ workspace: string; channel: string }>();
@@ -25,16 +25,14 @@ const ChannelList = () => {
 
   return (
     <div>
-      <h2>
-        <CollapseButton collapse={channelCollapse} onClick={toggleChannelCollapse}>
-          <i
-            className="c-icon p-channel_sidebar__section_heading_expand p-channel_sidebar__section_heading_expand--show_more_feature c-icon--caret-right c-icon--inherit c-icon--inline"
-            data-qa="channel-section-collapse"
-            aria-hidden="true"
-          />
-        </CollapseButton>
+      <CollapseButton collapse={channelCollapse} onClick={toggleChannelCollapse}>
+        <i
+          className="c-icon p-channel_sidebar__section_heading_expand p-channel_sidebar__section_heading_expand--show_more_feature c-icon--caret-right c-icon--inherit c-icon--inline"
+          data-qa="channel-section-collapse"
+          aria-hidden="true"
+        />
         <span>Channels</span>
-      </h2>
+      </CollapseButton>
       <div>
         {!channelCollapse &&
           channelData?.map((channel) => {
