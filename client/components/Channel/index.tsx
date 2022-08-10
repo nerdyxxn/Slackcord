@@ -9,13 +9,13 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { IChannel, IChat, IDM, IUser } from '@typings/db';
 import fetcher from '@utils/fetcher';
+import ChannelHeader from '@components/Channel/ChannelHeader';
 import ChatBox from '@components/Chat/ChatBox';
 import ChatList from '@components/Chat/ChatList';
 import useInput from '@hooks/useInput';
 import makeChatSection from '@utils/makeChatSection';
 import { Scrollbars } from 'react-custom-scrollbars';
 import useSocket from '@hooks/useSocket';
-import InviteChannelModal from '@components/Modal/InviteChannelModal';
 
 const PAGE_SIZE = 20;
 
@@ -54,13 +54,6 @@ const Channel = () => {
     },
   );
 
-  //:workspace 내부의 :channel의 멤버 목록을 가져옴
-  const { data: channelMembersData } = useSWR<IUser[]>(
-    userData ? `/api/workspaces/${workspace}/channels/${channel}/members` : null,
-    fetcher,
-  );
-
-  const [showInviteChannelModal, setShowInviteChannelModal] = useState(false);
   const [chat, onChangeChat, setChat] = useInput('');
   const [socket] = useSocket(workspace);
   const isEmpty = chatData?.[0]?.length === 0;
@@ -154,16 +147,6 @@ const Channel = () => {
     localStorage.setItem(`${workspace}-${channel}`, new Date().getTime().toString());
   }, [workspace, channel]);
 
-  // 클릭 시 유저 초대 Modal 오픈
-  const onClickInviteChannel = useCallback(() => {
-    setShowInviteChannelModal(true);
-  }, []);
-
-  // Modal 닫기
-  const onCloseModal = useCallback(() => {
-    setShowInviteChannelModal(false);
-  }, []);
-
   if (channelsData && !channelData) {
     return <Navigate to={`/workspace/${workspace}/channel/일반`} />;
   }
@@ -172,23 +155,7 @@ const Channel = () => {
 
   return (
     <Container>
-      <Header>
-        <span># {channel}</span>
-        <div className="header-right">
-          <span>{channelMembersData?.length}</span>
-          <button
-            onClick={onClickInviteChannel}
-            className="c-button-unstyled p-ia__view_header__button"
-            aria-label="Add people to #react-native"
-            data-sk="tooltip_parent"
-            type="button">
-            <i
-              className="c-icon p-ia__view_header__button_icon c-icon--add-user"
-              aria-hidden="true"
-            />
-          </button>
-        </div>
-      </Header>
+      <ChannelHeader></ChannelHeader>
       <ChatList
         chatSections={chatSections}
         scrollbarRef={scrollbarRef}
@@ -197,11 +164,6 @@ const Channel = () => {
         isReachingEnd={isReachingEnd}
       />
       <ChatBox chat={chat} onChangeChat={onChangeChat} onSubmitForm={onSubmitForm} />
-      <InviteChannelModal
-        show={showInviteChannelModal}
-        onCloseModal={onCloseModal}
-        setShowInviteChannelModal={setShowInviteChannelModal}
-      />
       <ToastContainer />
     </Container>
   );
