@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { CollapseButton } from '@components/Channel/ChannelList/styles';
+import { CollapseButton } from '@components/SideBar/ChannelList/styles';
 import useSWR from 'swr';
 import { useParams } from 'react-router';
 import { IChannel, IUser } from '@typings/db';

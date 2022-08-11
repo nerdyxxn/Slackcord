@@ -1,7 +1,7 @@
 import React, { FC, useState, useCallback, useEffect } from 'react';
 import { useParams } from 'react-router';
 import useSWR from 'swr';
-import { CollapseButton } from '@components/DirectMessage/DMList/styles';
+import { CollapseButton } from '@components/SideBar/DMList/styles';
 import { IUser, IUserWithOnline } from '@typings/db';
 import fetcher from '@utils/fetcher';
 import EachDM from '@components/DirectMessage/EachDM';
@@ -14,6 +14,7 @@ const DMList = () => {
     dedupingInterval: 2000,
   });
 
+  //:workspace 내부의 멤버 목록을 가져옴
   const { data: memberData } = useSWR<IUserWithOnline[]>(
     userData ? `/api/workspaces/${workspace}/members` : null,
     fetcher,
