@@ -1,4 +1,11 @@
 import styled from '@emotion/styled';
+import { AiOutlinePlus } from 'react-icons/ai';
+
+export const CollapseWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
 
 export const CollapseButton = styled.button<{ collapse: boolean }>`
   background: transparent;
@@ -18,4 +25,9 @@ export const CollapseButton = styled.button<{ collapse: boolean }>`
       transform: none;
     }
   `};
+`;
+
+export const AddIcon = styled(AiOutlinePlus)`
+  margin-right: 12px;
+  cursor: pointer;
 `;

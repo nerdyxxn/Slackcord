@@ -1,7 +1,7 @@
 import React, { FC, useState, useCallback, useEffect } from 'react';
 import { useParams } from 'react-router';
 import useSWR from 'swr';
-import { CollapseButton } from '@components/SideBar/DMList/styles';
+import { CollapseButton, CollapseWrapper } from '@components/SideBar/DMList/styles';
 import { IUser, IUserWithOnline } from '@typings/db';
 import fetcher from '@utils/fetcher';
 import EachDM from '@components/DirectMessage/EachDM';
@@ -37,23 +37,25 @@ const DMList = () => {
     socket?.on('onlineList', (data: number[]) => {
       setOnlineList(data);
     });
-    //console.log('socket on dm', socket?.hasListeners('dm'), socket);
+    console.log('socket on dm', socket?.hasListeners('dm'), socket);
     return () => {
-      //console.log('socket off dm', socket?.hasListeners('dm'));
+      console.log('socket off dm', socket?.hasListeners('dm'));
       socket?.off('onlineList');
     };
   }, [socket]);
 
   return (
     <div>
-      <CollapseButton collapse={channelCollapse} onClick={toggleChannelCollapse}>
-        <i
-          className="c-icon p-channel_sidebar__section_heading_expand p-channel_sidebar__section_heading_expand--show_more_feature c-icon--caret-right c-icon--inherit c-icon--inline"
-          data-qa="channel-section-collapse"
-          aria-hidden="true"
-        />
-        <span>Direct Messages</span>
-      </CollapseButton>
+      <CollapseWrapper>
+        <CollapseButton collapse={channelCollapse} onClick={toggleChannelCollapse}>
+          <i
+            className="c-icon p-channel_sidebar__section_heading_expand p-channel_sidebar__section_heading_expand--show_more_feature c-icon--caret-right c-icon--inherit c-icon--inline"
+            data-qa="channel-section-collapse"
+            aria-hidden="true"
+          />
+          <span>Direct Messages</span>
+        </CollapseButton>
+      </CollapseWrapper>
       <div>
         {!channelCollapse &&
           memberData?.map((member) => {

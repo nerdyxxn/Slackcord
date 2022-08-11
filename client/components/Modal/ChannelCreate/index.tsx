@@ -13,15 +13,9 @@ interface Props {
   show: boolean;
   onCloseModal: () => void;
   setShowCreateChannelModal: (flag: boolean) => void;
-  setShowWorkspaceModal: (flag: boolean) => void;
 }
 
-const CreateChannelModal: VFC<Props> = ({
-  show,
-  onCloseModal,
-  setShowCreateChannelModal,
-  setShowWorkspaceModal,
-}) => {
+const CreateChannelModal: VFC<Props> = ({ show, onCloseModal, setShowCreateChannelModal }) => {
   const [newChannel, onChangeNewChannel, setNewChannel] = useInput('');
   const { workspace, channel } = useParams<{ workspace: string; channel: string }>();
 
@@ -51,7 +45,6 @@ const CreateChannelModal: VFC<Props> = ({
         .then((response) => {
           mutateChannel(response.data, false);
           setShowCreateChannelModal(false);
-          setShowWorkspaceModal(false);
           setNewChannel('');
           toast.success('채널이 생성되었습니다!', {
             position: 'top-right',
@@ -76,14 +69,7 @@ const CreateChannelModal: VFC<Props> = ({
           });
         });
     },
-    [
-      newChannel,
-      mutateChannel,
-      setShowCreateChannelModal,
-      setShowWorkspaceModal,
-      setNewChannel,
-      workspace,
-    ],
+    [newChannel, mutateChannel, setShowCreateChannelModal, setNewChannel, workspace],
   );
 
   return (

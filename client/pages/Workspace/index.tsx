@@ -14,8 +14,6 @@ const Channel = loadable(() => import('@components/Channel'));
 const DirectMessage = loadable(() => import('@components/DirectMessage'));
 
 const Workspace: VFC = () => {
-  const [showWorkspaceModal, setShowWorkspaceModal] = useState(false);
-  const [showCreateChannelModal, setShowCreateChannelModal] = useState(false);
   const [showInviteWorkspaceModal, setShowInviteWorkspaceModal] = useState(false);
   const { workspace } = useParams<{ workspace: string; channel: string }>();
   const [socket, disconnect] = useSocket(workspace);
@@ -46,7 +44,6 @@ const Workspace: VFC = () => {
 
   // Modal 메뉴 닫기
   const onCloseModal = useCallback(() => {
-    setShowCreateChannelModal(false);
     setShowInviteWorkspaceModal(false);
   }, []);
 
@@ -66,12 +63,6 @@ const Workspace: VFC = () => {
           </Routes>
         </Chats>
       </WorkspaceWrapper>
-      <CreateChannelModal
-        show={showCreateChannelModal}
-        onCloseModal={onCloseModal}
-        setShowCreateChannelModal={setShowCreateChannelModal}
-        setShowWorkspaceModal={setShowWorkspaceModal}
-      />
       <InviteWorkspaceModal
         show={showInviteWorkspaceModal}
         onCloseModal={onCloseModal}
