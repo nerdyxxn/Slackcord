@@ -4,7 +4,7 @@ import useSWR from 'swr';
 import { IUser } from '@typings/db';
 import fetcher from '@utils/fetcher';
 import InviteChannelModal from '@components/Modal/InviteChannelModal';
-import { Header } from '@components/Channel/ChannelHeader/styles';
+import { AddUser, Header } from '@components/Channel/ChannelHeader/styles';
 
 const ChannelHeader = () => {
   const [showInviteChannelModal, setShowInviteChannelModal] = useState(false);
@@ -40,10 +40,7 @@ const ChannelHeader = () => {
           aria-label="Add people to #react-native"
           data-sk="tooltip_parent"
           type="button">
-          <i
-            className="c-icon p-ia__view_header__button_icon c-icon--add-user"
-            aria-hidden="true"
-          />
+          <AddUser />
         </button>
       </div>
       <InviteChannelModal

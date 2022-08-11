@@ -10,8 +10,10 @@ export const CreateModal = styled.div`
   z-index: 1022;
 
   & > div {
-    margin-top: 200px;
-    display: inline-block;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
     width: 440px;
     background: white;
     --saf-0: rgba(var(--sk_foreground_low, 29, 28, 29), 0.13);

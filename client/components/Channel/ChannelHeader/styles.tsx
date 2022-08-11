@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { MdPersonAddAlt1 } from 'react-icons/md';
 
 export const Header = styled.div`
   height: 64px;
@@ -16,4 +17,8 @@ export const Header = styled.div`
     justify-content: flex-end;
     align-items: center;
   }
+`;
+
+export const AddUser = styled(MdPersonAddAlt1)`
+  font-size: 20px;
 `;

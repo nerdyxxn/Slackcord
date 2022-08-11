@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { MdPersonAddAlt1 } from 'react-icons/md';
 
 export const RightMenu = styled.div`
   float: right;
@@ -128,18 +129,21 @@ export const WorkspaceTitle = styled.div`
   border: none;
   width: 100%;
   text-align: left;
-  border-top: 1px solid rgb(82, 38, 83);
   border-bottom: 1px solid rgb(82, 38, 83);
-  font-weight: 900;
-  font-size: 24px;
+  font-weight: 700;
+  font-size: 20px;
   background: transparent;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
   padding: 0;
-  padding-left: 16px;
+  padding-left: 14px;
+  padding-right: 14px;
   margin: 0;
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const MenuList = styled.div`
@@ -191,5 +195,10 @@ export const WorkspaceButton = styled.button`
   font-size: 18px;
   font-weight: 700;
   color: black;
+  cursor: pointer;
+`;
+
+export const AddUser = styled(MdPersonAddAlt1)`
+  font-size: 20px;
   cursor: pointer;
 `;
