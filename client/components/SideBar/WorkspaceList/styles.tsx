@@ -1,12 +1,13 @@
 import styled from '@emotion/styled';
 
 export const AddButton = styled.button`
-  color: white;
+  color: #1bd689;
   font-size: 24px;
   display: inline-block;
   width: 40px;
   height: 40px;
-  background: transparent;
+  border-radius: 50%;
+  background: white;
   border: none;
   cursor: pointer;
 `;
@@ -15,9 +16,9 @@ export const WorkspaceButton = styled.button`
   display: inline-block;
   width: 40px;
   height: 40px;
-  border-radius: 10px;
+  border-radius: 50%;
   background: white;
-  border: 3px solid #3f0e40;
+  border: none;
   margin-bottom: 15px;
   font-size: 18px;
   font-weight: 700;

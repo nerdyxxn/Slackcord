@@ -47,11 +47,6 @@ const ChannelList = () => {
           <span>Channels</span>
         </CollapseButton>
         <AddIcon onClick={onClickAddChannel} />
-        <CreateChannelModal
-          show={showCreateChannelModal}
-          onCloseModal={onCloseModal}
-          setShowCreateChannelModal={setShowCreateChannelModal}
-        />
       </CollapseWrapper>
       <div>
         {!channelCollapse &&
@@ -59,6 +54,11 @@ const ChannelList = () => {
             return <EachChannel key={channel.id} channel={channel} />;
           })}
       </div>
+      <CreateChannelModal
+        show={showCreateChannelModal}
+        onCloseModal={onCloseModal}
+        setShowCreateChannelModal={setShowCreateChannelModal}
+      />
     </div>
   );
 };

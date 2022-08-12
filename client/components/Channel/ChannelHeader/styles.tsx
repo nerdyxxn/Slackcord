@@ -5,8 +5,7 @@ export const Header = styled.div`
   height: 64px;
   display: flex;
   width: 100%;
-  --saf-0: rgba(var(--sk_foreground_low, 29, 28, 29), 0.13);
-  box-shadow: 0 1px 0 var(--saf-0);
+  border-bottom: 1px solid #e3e5e8;
   padding: 20px 16px 20px 20px;
   font-weight: bold;
   align-items: center;

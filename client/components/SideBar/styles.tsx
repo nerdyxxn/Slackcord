@@ -1,10 +1,6 @@
 import styled from '@emotion/styled';
 import { MdPersonAddAlt1 } from 'react-icons/md';
 
-export const RightMenu = styled.div`
-  float: right;
-`;
-
 export const Header = styled.header`
   height: 38px;
   background: #350d36;
@@ -18,8 +14,6 @@ export const ProfileImg = styled.img`
   width: 28px;
   height: 28px;
   position: absolute;
-  top: 5px;
-  right: 16px;
 `;
 
 export const ProfileModal = styled.div`
@@ -67,9 +61,7 @@ export const Workspaces = styled.div`
   display: inline-flex;
   flex-direction: column;
   align-items: center;
-  background: #3f0e40;
-  border-top: 1px solid rgb(82, 38, 83);
-  border-right: 1px solid rgb(82, 38, 83);
+  background: #e3e5e8;
   vertical-align: top;
   text-align: center;
   padding: 15px 0 0;
@@ -80,20 +72,35 @@ export const Channels = styled.nav`
   width: 260px;
   display: inline-flex;
   flex-direction: column;
-  background: #3f0e40;
-  color: rgb(188, 171, 188);
+  justify-content: space-between;
+  background: #f2f3f5;
+  color: #747f8d;
   vertical-align: top;
+  font-weight: 600;
+
   & a {
-    padding-left: 36px;
+    padding-left: 20px;
+    margin: 0 10px;
     color: inherit;
     text-decoration: none;
     height: 28px;
     line-height: 28px;
     display: flex;
     align-items: center;
+
     &.selected {
-      color: white;
+      color: #060607;
+      background: #d3d7db;
+      border-radius: 5px;
+      font-weight: bold;
     }
+    &.selected > .c-presence--active {
+      color: #1bd689;
+    }
+  }
+
+  & a > .c-icon--presence-online {
+    color: #1bd689;
   }
   & .bold {
     color: white;
@@ -126,11 +133,10 @@ export const Channels = styled.nav`
 export const WorkspaceTitle = styled.div`
   height: 64px;
   line-height: 64px;
-  border: none;
   width: 100%;
   text-align: left;
-  border-bottom: 1px solid rgb(82, 38, 83);
-  font-weight: 700;
+  border-bottom: 1px solid #e3e5e8;
+  font-weight: 800;
   font-size: 20px;
   background: transparent;
   text-overflow: ellipsis;
@@ -140,7 +146,7 @@ export const WorkspaceTitle = styled.div`
   padding-left: 14px;
   padding-right: 14px;
   margin: 0;
-  color: white;
+  color: #000;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -199,6 +205,23 @@ export const WorkspaceButton = styled.button`
 `;
 
 export const AddUser = styled(MdPersonAddAlt1)`
+  color: #505660;
   font-size: 20px;
   cursor: pointer;
+`;
+
+export const ProfileWrapper = styled.div`
+  height: 60px;
+  border-top: 1px solid #e3e5e8;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+
+  & > .profile-img {
+    padding-right: 5px;
+  }
+
+  & > .profile-img > img {
+    border-radius: 50%;
+  }
 `;

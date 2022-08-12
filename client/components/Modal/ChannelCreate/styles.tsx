@@ -42,7 +42,7 @@ export const Button = styled.button`
   width: 100%;
   max-width: 100%;
   color: #fff;
-  background-color: #4a154b;
+  background-color: #1bd689;
   border: none;
   font-size: 18px;
   font-weight: 900;
@@ -57,7 +57,7 @@ export const Button = styled.button`
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 
   &:hover {
-    background-color: rgba(74, 21, 75, 0.9);
+    opacity: 0.9;
     border: none;
   }
   &:focus {
