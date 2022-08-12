@@ -9,13 +9,12 @@ import {
   WorkspaceTitle,
   MenuList,
   AddUser,
-  ProfileWrapper,
 } from '@components/SideBar/styles';
 import WorkspaceList from '@components/SideBar/WorkspaceList/index';
 import ChannelList from '@components/SideBar/ChannelList';
 import DMList from '@components/SideBar/DMList';
 import InviteWorkspaceModal from '@components/Modal/InviteWorkspaceModal';
-import gravatar from 'gravatar';
+import Profile from '@components/SideBar/Profile';
 
 const SideBar = () => {
   const { workspace } = useParams<{ workspace: string; channel: string }>();
@@ -55,15 +54,7 @@ const SideBar = () => {
             <DMList />
           </MenuList>
         </div>
-        <ProfileWrapper>
-          <div className="profile-img">
-            <img
-              src={gravatar.url(userData.email, { s: '24px', d: 'retro' })}
-              alt={userData.nickname}
-            />
-          </div>
-          <span>{userData.nickname}</span>
-        </ProfileWrapper>
+        <Profile />
       </Channels>
       <InviteWorkspaceModal
         show={showInviteWorkspaceModal}

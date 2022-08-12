@@ -209,19 +209,3 @@ export const AddUser = styled(MdPersonAddAlt1)`
   font-size: 20px;
   cursor: pointer;
 `;
-
-export const ProfileWrapper = styled.div`
-  height: 60px;
-  border-top: 1px solid #e3e5e8;
-  display: flex;
-  align-items: center;
-  padding: 10px 20px;
-
-  & > .profile-img {
-    padding-right: 5px;
-  }
-
-  & > .profile-img > img {
-    border-radius: 50%;
-  }
-`;
