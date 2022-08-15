@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { VFC, useCallback, useState } from 'react';
 import gravatar from 'gravatar';
 import useSWR from 'swr';
 import { IUser } from '@typings/db';
 import fetcher from '@utils/fetcher';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 import {
   HeadphoneButton,
   MediaWrapper,
@@ -10,12 +12,20 @@ import {
   ProfileWrapper,
   UserWrapper,
   CameraButton,
-} from './styles';
+} from '@components/SideBar/Profile/styles';
+import ProfilePopup from '@components/SideBar/ProfilePopup';
 
-const Profile = () => {
+const Profile: VFC = () => {
+  const [showUserMenu, setShowUserMenu] = useState(false);
   const { data: userData, mutate } = useSWR<IUser>('/api/users', fetcher, {
     dedupingInterval: 2000,
   });
+
+  //유저 프로필 메뉴 Toggle
+  const onClickUserProfile = useCallback((e) => {
+    e.stopPropagation();
+    setShowUserMenu((prev) => !prev);
+  }, []);
 
   if (!userData) {
     return null;
@@ -23,7 +33,7 @@ const Profile = () => {
 
   return (
     <ProfileWrapper>
-      <UserWrapper>
+      <UserWrapper onClick={onClickUserProfile}>
         <div className="profile-img">
           <img
             src={gravatar.url(userData.email, { s: '24px', d: 'retro' })}
@@ -31,6 +41,7 @@ const Profile = () => {
           />
         </div>
         <span>{userData.nickname}</span>
+        {showUserMenu && <ProfilePopup show={showUserMenu} onCloseModal={onClickUserProfile} />}
       </UserWrapper>
       <MediaWrapper>
         <MicButton />
