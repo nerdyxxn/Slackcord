@@ -47,7 +47,7 @@ const ProfilePopup: FC<Props> = ({ show, onCloseModal }) => {
         <CloseModalButton onClick={onCloseModal}>&times;</CloseModalButton>
         <ProfileModal>
           <img
-            src={gravatar.url(userData.email, { s: '36px', d: 'retro' })}
+            src={gravatar.url(userData.email, { s: '79px', d: 'retro' })}
             alt={userData.nickname}
           />
           <div>

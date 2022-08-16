@@ -36,7 +36,7 @@ const Profile: VFC = () => {
       <UserWrapper onClick={onClickUserProfile}>
         <div className="profile-img">
           <img
-            src={gravatar.url(userData.email, { s: '24px', d: 'retro' })}
+            src={gravatar.url(userData.email, { s: '28px', d: 'retro' })}
             alt={userData.nickname}
           />
         </div>
