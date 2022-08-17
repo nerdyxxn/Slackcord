@@ -3,8 +3,6 @@ import gravatar from 'gravatar';
 import useSWR from 'swr';
 import { IUser } from '@typings/db';
 import fetcher from '@utils/fetcher';
-import axios from 'axios';
-import { toast } from 'react-toastify';
 import {
   HeadphoneButton,
   MediaWrapper,
@@ -14,6 +12,7 @@ import {
   CameraButton,
 } from '@components/SideBar/Profile/styles';
 import ProfilePopup from '@components/SideBar/ProfilePopup';
+import Avatar from 'boring-avatars';
 
 const Profile: VFC = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -35,9 +34,11 @@ const Profile: VFC = () => {
     <ProfileWrapper>
       <UserWrapper onClick={onClickUserProfile}>
         <div className="profile-img">
-          <img
-            src={gravatar.url(userData.email, { s: '28px', d: 'retro' })}
-            alt={userData.nickname}
+          <Avatar
+            size={28}
+            name={userData.email}
+            variant="beam"
+            colors={['#B5F4BC', '#FFF19E', '#FFDC8A', '#FFBA6B', '#FF6543']}
           />
         </div>
         <span>{userData.nickname}</span>
