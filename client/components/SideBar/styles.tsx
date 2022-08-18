@@ -121,9 +121,7 @@ export const WorkspaceTitle = styled.div`
   justify-content: space-between;
 `;
 
-export const MenuList = styled.div`
-  overflow-y: auto;
-`;
+export const MenuList = styled.div``;
 
 export const WorkspaceModal = styled.div`
   padding: 10px 0 0;

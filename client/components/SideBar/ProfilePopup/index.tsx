@@ -32,6 +32,7 @@ const ProfilePopup: FC<Props> = ({ show, onCloseModal }) => {
       .post('/api/users/logout', { withCredentials: true })
       .then(() => {
         mutate();
+        document.location.href = '/login';
       })
       .catch((error) => {
         console.dir(error);

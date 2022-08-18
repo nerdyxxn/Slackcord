@@ -1,4 +1,4 @@
-import React, { VFC, useCallback, useState, useEffect } from 'react';
+import React, { VFC, useEffect } from 'react';
 import { Route, Routes, Navigate, useParams } from 'react-router-dom';
 import { IUser, IChannel } from '@typings/db';
 import fetcher from '@utils/fetcher';

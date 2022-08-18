@@ -75,6 +75,7 @@ function LogIn() {
               type="password"
               id="password"
               name="password"
+              autoComplete="off"
               value={password}
               onChange={onChangePassword}></Input>
           </div>
