@@ -38,7 +38,7 @@ const Profile: VFC = () => {
             size={28}
             name={userData.email}
             variant="beam"
-            colors={['#B5F4BC', '#FFF19E', '#FFDC8A', '#FFBA6B', '#FF6543']}
+            colors={['#E2F0D7', '#DFFDA7', '#6ECF42', '#31A252', '#0F7527']}
           />
         </div>
         <span>{userData.nickname}</span>

@@ -1,5 +1,5 @@
 import React, { FC, useCallback } from 'react';
-import gravatar from 'gravatar';
+import Avatar from 'boring-avatars';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import useSWR from 'swr';
@@ -46,9 +46,11 @@ const ProfilePopup: FC<Props> = ({ show, onCloseModal }) => {
       <ProfilePopupWrapper onClick={stopPropagation}>
         <CloseModalButton onClick={onCloseModal}>&times;</CloseModalButton>
         <ProfileModal>
-          <img
-            src={gravatar.url(userData.email, { s: '79px', d: 'retro' })}
-            alt={userData.nickname}
+          <Avatar
+            size={79}
+            name={userData.email}
+            variant="beam"
+            colors={['#E2F0D7', '#DFFDA7', '#6ECF42', '#31A252', '#0F7527']}
           />
           <div>
             <span id="profile-name">{userData.nickname}</span>

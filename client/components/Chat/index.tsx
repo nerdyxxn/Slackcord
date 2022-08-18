@@ -1,5 +1,5 @@
 import React, { memo, useMemo, VFC } from 'react';
-import gravatar from 'gravatar';
+import Avatar from 'boring-avatars';
 import dayjs from 'dayjs';
 import { IChat, IDM } from '@typings/db';
 import { ChatWrapper } from '@components/Chat/styles';
@@ -37,7 +37,12 @@ const Chat: VFC<Props> = ({ data }) => {
   return (
     <ChatWrapper>
       <div className="chat-img">
-        <img src={gravatar.url(user.email, { s: '36px', d: 'retro' })} alt={user.nickname} />
+        <Avatar
+          size={36}
+          name={user.email}
+          variant="beam"
+          colors={['#E2F0D7', '#DFFDA7', '#6ECF42', '#31A252', '#0F7527']}
+        />
       </div>
       <div className="chat-text">
         <div className="chat-user">

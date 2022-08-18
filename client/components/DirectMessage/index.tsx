@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, VFC } from 'react';
 import { Container, Header } from './styles';
-import gravatar from 'gravatar';
+import Avatar from 'boring-avatars';
 import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
 import { useParams } from 'react-router';
@@ -153,9 +153,11 @@ const DirectMessage = () => {
   return (
     <Container>
       <Header>
-        <img
-          src={gravatar.url(userData.email, { s: '24px', d: 'retro' })}
-          alt={userData.nickname}
+        <Avatar
+          size={24}
+          name={userData.email}
+          variant="beam"
+          colors={['#E2F0D7', '#DFFDA7', '#6ECF42', '#31A252', '#0F7527']}
         />
         <span>{userData.nickname}</span>
       </Header>
