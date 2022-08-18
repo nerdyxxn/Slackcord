@@ -9,6 +9,7 @@ export const Header = styled.div`
   padding: 20px 16px 20px 20px;
   font-weight: bold;
   align-items: center;
+  color: #222;
 
   & .header-right {
     display: flex;

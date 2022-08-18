@@ -43,9 +43,10 @@ export const Channels = styled.nav`
   background: #f2f3f5;
   color: #747f8d;
   vertical-align: top;
-  font-weight: 600;
+  font-weight: 500;
 
   & a {
+    font-size: 15px;
     padding-left: 20px;
     margin: 0 10px;
     color: inherit;
@@ -56,7 +57,7 @@ export const Channels = styled.nav`
     align-items: center;
 
     &.selected {
-      color: #060607;
+      color: #222;
       background: #d3d7db;
       border-radius: 5px;
       font-weight: bold;
@@ -98,6 +99,7 @@ export const Channels = styled.nav`
 `;
 
 export const WorkspaceTitle = styled.div`
+  text-transform: uppercase;
   height: 64px;
   line-height: 64px;
   width: 100%;
@@ -113,7 +115,7 @@ export const WorkspaceTitle = styled.div`
   padding-left: 14px;
   padding-right: 14px;
   margin: 0;
-  color: #000;
+  color: #222;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -144,31 +146,6 @@ export const WorkspaceModal = styled.div`
 
 export const Chats = styled.div`
   flex: 1;
-`;
-
-export const AddButton = styled.button`
-  color: white;
-  font-size: 24px;
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-`;
-
-export const WorkspaceButton = styled.button`
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  background: white;
-  border: 3px solid #3f0e40;
-  margin-bottom: 15px;
-  font-size: 18px;
-  font-weight: 700;
-  color: black;
-  cursor: pointer;
 `;
 
 export const AddUser = styled(MdPersonAddAlt1)`

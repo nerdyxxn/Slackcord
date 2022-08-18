@@ -8,6 +8,8 @@ export const ProfileWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 10px 10px 10px 20px;
+  font-size: 15px;
+  font-weight: 700;
 `;
 
 export const UserWrapper = styled.div`

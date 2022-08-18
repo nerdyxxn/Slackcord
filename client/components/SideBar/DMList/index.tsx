@@ -53,7 +53,7 @@ const DMList = () => {
             data-qa="channel-section-collapse"
             aria-hidden="true"
           />
-          <span>Direct Messages</span>
+          <span>DIRECT MESSAGES</span>
         </CollapseButton>
       </CollapseWrapper>
       <div>

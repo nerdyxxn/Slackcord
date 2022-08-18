@@ -22,6 +22,6 @@ export const WorkspaceButton = styled.button`
   margin-bottom: 15px;
   font-size: 18px;
   font-weight: 700;
-  color: black;
+  color: #222;
   cursor: pointer;
 `;

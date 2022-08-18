@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router';
 import loadable from '@loadable/component';
 import { Global } from '@emotion/react';
 import Reset from '@styles/Reset';
+import './App.css';
 
 const LogIn = loadable(() => import('@pages/Login'));
 const SignUp = loadable(() => import('@pages/SignUp'));

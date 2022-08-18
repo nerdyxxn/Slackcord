@@ -17,9 +17,15 @@ export const CollapseButton = styled.button<{ collapse: boolean }>`
   color: #747f8d;
   margin-left: 10px;
   cursor: pointer;
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 900;
   padding: 0;
+
+  & span {
+    line-height: 36px;
+    vertical-align: middle;
+    padding-top: 3px;
+  }
 
   ${({ collapse }) =>
     collapse &&

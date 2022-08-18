@@ -4,6 +4,7 @@ export const ChatZone = styled.div`
   width: 100%;
   display: flex;
   flex: 1;
+  color: #222;
 `;
 
 export const Section = styled.section`
@@ -20,6 +21,7 @@ export const StickyHeader = styled.div`
   top: 14px;
 
   & button {
+    color: #222;
     font-weight: bold;
     font-size: 13px;
     height: 28px;

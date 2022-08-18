@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 export const ChatWrapper = styled.div`
   display: flex;
   padding: 8px 20px;
+  font-size: 15px;
+  font-weight: 500;
 
   &:hover {
     background: #eee;
@@ -28,6 +30,9 @@ export const ChatWrapper = styled.div`
     & p {
       flex: 0 0 100%;
       margin: 0;
+      height: 18px;
+      line-height: 18px;
+      padding-top: 2px;
     }
   }
 
@@ -35,6 +40,9 @@ export const ChatWrapper = styled.div`
     display: flex;
     flex: 0 0 100%;
     align-items: center;
+    height: 18px;
+    line-height: 18px;
+    font-weight: 700;
 
     & > b {
       margin-right: 5px;

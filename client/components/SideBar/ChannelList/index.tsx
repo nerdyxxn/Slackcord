@@ -44,7 +44,7 @@ const ChannelList = () => {
             data-qa="channel-section-collapse"
             aria-hidden="true"
           />
-          <span>Channels</span>
+          <span>CHATTING CHANNELS</span>
         </CollapseButton>
         <AddIcon onClick={onClickAddChannel} />
       </CollapseWrapper>
