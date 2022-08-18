@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState, VFC } from 'react';
-import { ChannelMemberWrapper, Container, Header } from './styles';
+import { Container, ChannelContent, ChannelChat } from './styles';
 import gravatar from 'gravatar';
 import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { IChannel, IChat, IDM, IUser } from '@typings/db';
 import fetcher from '@utils/fetcher';
 import ChannelHeader from '@components/Channel/ChannelHeader';
+import ChannelMembers from '@components/Channel/ChannelMembers';
 import ChatBox from '@components/Chat/ChatBox';
 import ChatList from '@components/Chat/ChatList';
 import useInput from '@hooks/useInput';
@@ -155,15 +156,20 @@ const Channel = () => {
 
   return (
     <Container>
-      <ChannelHeader></ChannelHeader>
-      <ChatList
-        chatSections={chatSections}
-        scrollbarRef={scrollbarRef}
-        setSize={setSize}
-        isEmpty={isEmpty}
-        isReachingEnd={isReachingEnd}
-      />
-      <ChatBox chat={chat} onChangeChat={onChangeChat} onSubmitForm={onSubmitForm} />
+      <ChannelHeader />
+      <ChannelContent>
+        <ChannelChat>
+          <ChatList
+            chatSections={chatSections}
+            scrollbarRef={scrollbarRef}
+            setSize={setSize}
+            isEmpty={isEmpty}
+            isReachingEnd={isReachingEnd}
+          />
+          <ChatBox chat={chat} onChangeChat={onChangeChat} onSubmitForm={onSubmitForm} />
+        </ChannelChat>
+        <ChannelMembers />
+      </ChannelContent>
       <ToastContainer />
     </Container>
   );
