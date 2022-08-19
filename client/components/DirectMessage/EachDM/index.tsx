@@ -3,6 +3,7 @@ import { NavLink, useLocation, useParams } from 'react-router-dom';
 import useSWR from 'swr';
 import { IUser } from '@typings/db';
 import fetcher from '@utils/fetcher';
+import { Offline, Online } from './styles';
 
 interface Props {
   member: IUser;
@@ -36,16 +37,7 @@ const EachDM: VFC<Props> = ({ member, isOnline }) => {
       key={member.id}
       className={({ isActive }) => (isActive ? 'selected' : '')}
       to={`/workspace/${workspace}/dm/${member.id}`}>
-      <i
-        className={`c-icon p-channel_sidebar__presence_icon p-channel_sidebar__presence_icon--dim_enabled c-presence ${
-          isOnline ? 'c-presence--active c-icon--presence-online' : 'c-icon--presence-offline'
-        }`}
-        aria-hidden="true"
-        data-qa="presence_indicator"
-        data-qa-presence-self="false"
-        data-qa-presence-active="false"
-        data-qa-presence-dnd="false"
-      />
+      {isOnline ? <Online /> : <Offline />}
       <span className={count && count > 0 ? 'bold' : undefined}>{member.nickname}</span>
       {member.id === userData?.id && <span> (나)</span>}
       {(count && count > 0 && <span className="count">{count}</span>) || null}

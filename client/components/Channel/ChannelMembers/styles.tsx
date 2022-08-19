@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { VscCircleFilled } from 'react-icons/vsc';
 
 export const ChannelMembersWrapper = styled.div`
   display: flex;
@@ -29,4 +30,20 @@ export const Members = styled.div`
   display: flex;
   align-items: center;
   padding: 15px 20px;
+`;
+
+export const Online = styled(VscCircleFilled)`
+  position: relative;
+  margin: 0;
+  left: -10px;
+  top: 7px;
+  color: #1bd689;
+`;
+
+export const Offline = styled(VscCircleFilled)`
+  position: relative;
+  margin: 0;
+  left: -10px;
+  top: 7px;
+  color: #d3d7db;
 `;
