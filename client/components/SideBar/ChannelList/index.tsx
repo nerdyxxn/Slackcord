@@ -16,6 +16,7 @@ const ChannelList = () => {
     dedupingInterval: 2000,
   });
 
+  //:workspace 내부의 :channel 정보를 가져옴
   const { data: channelData } = useSWR<IChannel[]>(
     userData ? `/api/workspaces/${workspace}/channels` : null,
     fetcher,

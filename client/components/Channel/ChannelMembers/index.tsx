@@ -11,6 +11,7 @@ const ChannelMembers = () => {
   const { workspace, channel } = useParams<{ workspace: string; channel: string }>();
   const [onlineList, setOnlineList] = useState<number[]>([]);
   const [socket] = useSocket(workspace);
+  const [mount, setMount] = useState(false);
 
   //:내 로그인 정보를 가져옴, 로그인 되어있지 않으면 false
   const { data: userData } = useSWR<IUser>(`/api/users`, fetcher);
@@ -22,6 +23,11 @@ const ChannelMembers = () => {
   );
 
   useEffect(() => {
+    console.log('채널 변경 ::::::::::::', channel);
+    setMount((prev) => !prev);
+  }, [channel]);
+
+  useEffect(() => {
     socket?.on('onlineList', (data: number[]) => {
       setOnlineList(data);
     });
@@ -30,24 +36,24 @@ const ChannelMembers = () => {
     };
   }, [socket]);
 
-  if (!channelMembersData || !userData) return null;
-
   return (
     <ChannelMembersWrapper>
-      <p>Online</p>
+      <p>CHANNEL MEMBERS</p>
       {channelMembersData?.map((member) => {
         const isOnline = onlineList.includes(member.id);
         return (
-          <Members key={member.id}>
-            <Avatar
-              size={28}
-              name={member.email}
-              variant="beam"
-              colors={['#E2F0D7', '#DFFDA7', '#6ECF42', '#31A252', '#0F7527']}
-            />
-            {isOnline ? <Online /> : <Offline />}
-            <span>{member.nickname}</span>
-          </Members>
+          <div key={member.id}>
+            <Members>
+              <Avatar
+                size={28}
+                name={member.email}
+                variant="beam"
+                colors={['#E2F0D7', '#DFFDA7', '#6ECF42', '#31A252', '#0F7527']}
+              />
+              {isOnline ? <Online /> : <Offline />}
+              <span>{member.nickname}</span>
+            </Members>
+          </div>
         );
       })}
     </ChannelMembersWrapper>

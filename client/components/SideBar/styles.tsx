@@ -142,10 +142,6 @@ export const WorkspaceModal = styled.div`
   }
 `;
 
-export const Chats = styled.div`
-  flex: 1;
-`;
-
 export const AddUser = styled(MdPersonAddAlt1)`
   color: #505660;
   font-size: 20px;

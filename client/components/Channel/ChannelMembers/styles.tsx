@@ -11,9 +11,9 @@ export const ChannelMembersWrapper = styled.div`
     font-size: 16px;
     font-weight: 900;
     color: #747f8d;
-    margin: 10px;
+    margin: 12px;
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
 `;
 

@@ -43,7 +43,7 @@ const CreateChannelModal: VFC<Props> = ({ show, onCloseModal, setShowCreateChann
           { withCredentials: true },
         )
         .then((response) => {
-          mutateChannel(response.data, false);
+          mutateChannel();
           setShowCreateChannelModal(false);
           setNewChannel('');
           toast.success('채널이 생성되었습니다!', {

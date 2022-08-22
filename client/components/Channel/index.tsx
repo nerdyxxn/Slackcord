@@ -156,8 +156,8 @@ const Channel = () => {
 
   return (
     <Container>
-      <ChannelHeader />
       <ChannelContent>
+        <ChannelHeader />
         <ChannelChat>
           <ChatList
             chatSections={chatSections}
@@ -168,8 +168,8 @@ const Channel = () => {
           />
           <ChatBox chat={chat} onChangeChat={onChangeChat} onSubmitForm={onSubmitForm} />
         </ChannelChat>
-        <ChannelMembers />
       </ChannelContent>
+      <ChannelMembers />
       <ToastContainer />
     </Container>
   );

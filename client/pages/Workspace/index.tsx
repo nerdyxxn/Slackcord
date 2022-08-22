@@ -1,6 +1,6 @@
-import React, { VFC, useEffect } from 'react';
+import React, { VFC, useEffect, useState, useCallback } from 'react';
 import { Route, Routes, Navigate, useParams } from 'react-router-dom';
-import { IUser, IChannel } from '@typings/db';
+import { IUser, IChannel, IUserWithOnline } from '@typings/db';
 import fetcher from '@utils/fetcher';
 import loadable from '@loadable/component';
 import useSWR from 'swr';
@@ -12,7 +12,7 @@ const Channel = loadable(() => import('@components/Channel'));
 const DirectMessage = loadable(() => import('@components/DirectMessage'));
 
 const Workspace: VFC = () => {
-  const { workspace } = useParams<{ workspace: string; channel: string }>();
+  const { workspace, channel } = useParams<{ workspace: string; channel: string }>();
   const [socket, disconnect] = useSocket(workspace);
 
   const { data: userData, mutate } = useSWR<IUser | false>('/api/users', fetcher, {

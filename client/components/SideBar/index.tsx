@@ -24,7 +24,7 @@ const SideBar = () => {
     dedupingInterval: 2000,
   });
 
-  // 사용자 초대 Modal
+  // 워크스페이스 사용자 초대 Modal
   const onClickInviteWorkspace = useCallback(() => {
     setShowInviteWorkspaceModal(true);
   }, []);
