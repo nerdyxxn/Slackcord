@@ -1,7 +1,7 @@
 import React, { VFC, useCallback, useState } from 'react';
 import useInput from '@hooks/useInput';
 import Modal from '@components/Modal';
-import { Button, Input, Label } from '@components/Modal/ChannelCreate/styles';
+import { Button, Form, Input, Label } from '@components/Modal/ChannelCreate/styles';
 import axios from 'axios';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
@@ -74,13 +74,13 @@ const CreateChannelModal: VFC<Props> = ({ show, onCloseModal, setShowCreateChann
 
   return (
     <Modal show={show} onCloseModal={onCloseModal}>
-      <form onSubmit={onCreateChannel}>
+      <Form onSubmit={onCreateChannel}>
         <Label id="channel-label">
           <span>채널 이름</span>
           <Input id="channel" value={newChannel} onChange={onChangeNewChannel} />
         </Label>
         <Button type="submit">생성하기</Button>
-      </form>
+      </Form>
     </Modal>
   );
 };

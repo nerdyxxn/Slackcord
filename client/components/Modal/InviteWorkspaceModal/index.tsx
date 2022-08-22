@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import Modal from '@components/Modal';
 import fetcher from '@utils/fetcher';
 import useInput from '@hooks/useInput';
-import { Label, Input, Button } from '@components/Modal/InviteWorkspaceModal/styles';
+import { Label, Input, Button, Form } from '@components/Modal/InviteWorkspaceModal/styles';
 import { IUser, IChannel } from '@typings/db';
 
 interface Props {
@@ -60,13 +60,13 @@ const InviteWorkspaceModal: FC<Props> = ({ show, onCloseModal, setShowInviteWork
 
   return (
     <Modal show={show} onCloseModal={onCloseModal}>
-      <form onSubmit={onInviteMember}>
+      <Form onSubmit={onInviteMember}>
         <Label id="member-label">
-          <span>이메일</span>
-          <Input id="member" value={newMember} onChange={onChangeNewMember} />
+          <span>워크스페이스 멤버 초대</span>
+          <Input id="member" value={newMember} onChange={onChangeNewMember} placeholder="email" />
         </Label>
         <Button type="submit">초대하기</Button>
-      </form>
+      </Form>
     </Modal>
   );
 };

@@ -1,5 +1,5 @@
 import React, { FC, useCallback } from 'react';
-import { Button, Input, Label } from './styles';
+import { Button, Form, Input, Label } from './styles';
 import { useParams } from 'react-router';
 import useSWR from 'swr';
 import Modal from '@components/Modal';
@@ -59,13 +59,13 @@ const InviteChannelModal: FC<Props> = ({ show, onCloseModal, setShowInviteChanne
 
   return (
     <Modal show={show} onCloseModal={onCloseModal}>
-      <form onSubmit={onInviteMember}>
+      <Form onSubmit={onInviteMember}>
         <Label>
           <span>채널 멤버 초대</span>
-          <Input id="member" value={newMember} onChange={onChangeNewMember} />
+          <Input id="member" value={newMember} onChange={onChangeNewMember} placeholder="email" />
         </Label>
         <Button type="submit">초대하기</Button>
-      </form>
+      </Form>
     </Modal>
   );
 };

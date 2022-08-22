@@ -1,7 +1,7 @@
 import React, { VFC, useCallback, useState } from 'react';
 import useInput from '@hooks/useInput';
 import Modal from '@components/Modal';
-import { Button, Input, Label } from '@components/Modal/WorkspaceCreate/styles';
+import { Button, Form, Input, Label } from '@components/Modal/WorkspaceCreate/styles';
 import axios from 'axios';
 import useSWR from 'swr';
 import { IUser } from '@typings/db';
@@ -68,7 +68,7 @@ const CreateWorkspaceModal: VFC<Props> = ({ show, onCloseModal, setShowCreateWor
 
   return (
     <Modal show={show} onCloseModal={onCloseModal}>
-      <form onSubmit={onCreateWorkspace}>
+      <Form onSubmit={onCreateWorkspace}>
         <Label id="workspace-label">
           <span>워크스페이스 이름</span>
           <Input id="workspace" value={newWorkspace} onChange={onChangeNewWorkspace} />
@@ -78,7 +78,7 @@ const CreateWorkspaceModal: VFC<Props> = ({ show, onCloseModal, setShowCreateWor
           <Input id="workspace-url" value={newUrl} onChange={onChangeNewUrl} />
         </Label>
         <Button type="submit">생성하기</Button>
-      </form>
+      </Form>
     </Modal>
   );
 };

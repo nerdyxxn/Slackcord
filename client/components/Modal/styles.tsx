@@ -15,14 +15,12 @@ export const CreateModal = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
-    width: 440px;
+    width: 450px;
     background: white;
-    --saf-0: rgba(var(--sk_foreground_low, 29, 28, 29), 0.13);
-    box-shadow: 0 0 0 1px var(--saf-0), 0 4px 12px 0 rgba(0, 0, 0, 0.12);
-    background-color: rgba(var(--sk_foreground_min_solid, 248, 248, 248), 1);
-    border-radius: 6px;
+    box-shadow: 0 0.125rem 0.25rem rgba(255, 255, 255, 0.175) !important;
+    border: none;
+    border-radius: 12px;
     user-select: none;
-    max-width: 440px;
     padding: 30px 40px 0;
     z-index: 1012;
     position: relative;
@@ -35,6 +33,7 @@ export const CloseModalButton = styled.button`
   top: 6px;
   background: transparent;
   border: none;
-  font-size: 30px;
+  font-size: 25px;
+  color: #222;
   cursor: pointer;
 `;
