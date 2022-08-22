@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 export const Header = styled.header`
+  color: #222;
   text-align: center;
   font-family: Slack-Larsseit, Helvetica Neue, Helvetica, Segoe UI, Tahoma, Arial, sans-serif;
   font-weight: 700;
@@ -18,6 +19,7 @@ export const Form = styled.form`
 
 export const Label = styled.label`
   margin-bottom: 16px;
+  color: #222;
 
   & > span {
     display: block;
@@ -31,20 +33,17 @@ export const Label = styled.label`
 `;
 
 export const Input = styled.input`
-  border-radius: 4px;
-  --saf-0: rgba(var(--sk_foreground_high_solid, 134, 134, 134), 1);
-  border: 1px solid var(--saf-0);
-  transition: border 80ms ease-out, box-shadow 80ms ease-out;
+  border-radius: 6px;
+  border: none;
+  background: #f2f3f5;
   box-sizing: border-box;
   margin: 0 0 20px;
   width: 100%;
-  color: rgba(var(--sk_primary_foreground, 29, 28, 29), 1);
-  background-color: rgba(var(--sk_primary_background, 255, 255, 255), 1);
   padding: 12px;
   height: 44px;
   padding-top: 11px;
   padding-bottom: 13px;
-  font-size: 18px;
+  font-size: 14px;
   line-height: 1.33333333;
 
   &:focus {
@@ -54,14 +53,14 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  margin-bottom: 12px;
+  margin: 12px 0;
   width: 100%;
   max-width: 100%;
   color: #fff;
   background-color: #1bd689;
   border: none;
-  font-size: 18px;
-  font-weight: 900;
+  font-size: 17px;
+  font-weight: 800;
   height: 44px;
   min-width: 96px;
   padding: 0 16px 3px;
@@ -69,7 +68,7 @@ export const Button = styled.button`
   user-select: none;
   outline: none;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 6px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 
   &:hover {
@@ -102,7 +101,7 @@ export const LinkContainer = styled.p`
   max-width: 400px;
 
   & a {
-    color: #1264a3;
+    color: #1bd689;
     text-decoration: none;
     font-weight: 700;
 

@@ -53,16 +53,18 @@ export const LogOutButton = styled.button`
   padding: 5px 20px 5px;
   outline: none;
   cursor: pointer;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
 `;
 
 export const ProfilePopupWrapper = styled.div`
-  bottom: 70px;
+  bottom: 56px;
   left: 73px;
   position: absolute;
   display: inline-block;
   background-color: #fff;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.14), 0 3px 6px rgba(0, 0, 0, 0.23);
-  border-radius: 6px;
+  box-shadow: 0 5px 10px rgba(22, 22, 22, 0.14), 0 5px 10px rgba(22, 22, 22, 0.2);
+  border-radius: 12px;
   user-select: none;
   min-width: 360px;
   z-index: 512;
