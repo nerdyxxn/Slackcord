@@ -11,7 +11,6 @@ const ChannelMembers = () => {
   const { workspace, channel } = useParams<{ workspace: string; channel: string }>();
   const [onlineList, setOnlineList] = useState<number[]>([]);
   const [socket] = useSocket(workspace);
-  const [mount, setMount] = useState(false);
 
   //:내 로그인 정보를 가져옴, 로그인 되어있지 않으면 false
   const { data: userData } = useSWR<IUser>(`/api/users`, fetcher);
@@ -22,10 +21,10 @@ const ChannelMembers = () => {
     fetcher,
   );
 
-  useEffect(() => {
-    console.log('채널 변경 ::::::::::::', channel);
-    setMount((prev) => !prev);
-  }, [channel]);
+  // useEffect(() => {
+  //   console.log('채널 변경 ::::::::::::', channel);
+  //   setOnlineList([]);
+  // }, [channel]);
 
   useEffect(() => {
     socket?.on('onlineList', (data: number[]) => {

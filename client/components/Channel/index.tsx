@@ -148,7 +148,7 @@ const Channel = () => {
     localStorage.setItem(`${workspace}-${channel}`, new Date().getTime().toString());
   }, [workspace, channel]);
 
-  if (channelsData && !channelData) {
+  if (!channelsData && !channelData) {
     return <Navigate to={`/workspace/${workspace}/channel/일반`} />;
   }
 

@@ -71,7 +71,7 @@ export const Channels = styled.nav`
     color: #1bd689;
   }
   & .bold {
-    color: white;
+    color: #222;
     font-weight: bold;
   }
   & .count {
