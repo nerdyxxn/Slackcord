@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { MentionsInput } from 'react-mentions';
+import { FaPaperPlane } from 'react-icons/fa';
 
 export const ChatArea = styled.div`
   display: flex;
@@ -59,10 +60,10 @@ export const Toolbox = styled.div`
   border-bottom-right-radius: 8px;
 `;
 
-export const SendButton = styled.button`
+export const SendButton = styled(FaPaperPlane)`
   position: absolute;
-  right: 5px;
-  top: 5px;
+  right: 13px;
+  color: #747f8d;
 `;
 
 export const EachMention = styled.button<{ focus: boolean }>`

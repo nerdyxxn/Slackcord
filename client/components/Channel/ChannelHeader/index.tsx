@@ -34,14 +34,7 @@ const ChannelHeader = () => {
       <span># {channel}</span>
       <div className="header-right">
         <span>{channelMembersData?.length}</span>
-        <button
-          onClick={onClickInviteChannel}
-          className="c-button-unstyled p-ia__view_header__button"
-          aria-label="Add people to #react-native"
-          data-sk="tooltip_parent"
-          type="button">
-          <AddUser />
-        </button>
+        <AddUser onClick={onClickInviteChannel} />
       </div>
       <InviteChannelModal
         show={showInviteChannelModal}

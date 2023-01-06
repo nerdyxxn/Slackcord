@@ -21,4 +21,6 @@ export const Header = styled.div`
 
 export const AddUser = styled(MdPersonAddAlt1)`
   font-size: 20px;
+  margin-left: 10px;
+  cursor: pointer;
 `;
