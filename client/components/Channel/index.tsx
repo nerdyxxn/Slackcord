@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState, VFC } from 'react';
-import { Container, ChannelContent, ChannelChat } from './styles';
+import { Container, ChannelContent, ChannelChat, DragOver } from './styles';
 import gravatar from 'gravatar';
 import useSWR from 'swr';
 import useSWRInfinite from 'swr/infinite';
@@ -61,6 +61,7 @@ const Channel = () => {
   const isReachingEnd =
     isEmpty || (chatData && chatData[chatData.length - 1]?.length < 20) || false;
   const scrollbarRef = useRef<Scrollbars>(null);
+  const [dragOver, setDragOver] = useState(false);
 
   const onSubmitForm = useCallback(
     (e) => {
@@ -106,7 +107,11 @@ const Channel = () => {
   // 채널 chat 데이터 처리
   const onMessage = useCallback(
     (data: IChat) => {
-      if (data.Channel.name === channel && data.UserId !== userData?.id) {
+      // id는 상대방 아이디
+      if (
+        data.Channel.name === channel &&
+        (data.content.startsWith('uploads\\') || data.UserId !== userData?.id)
+      ) {
         mutateChat((chatData) => {
           chatData?.[0].unshift(data);
           return chatData;
@@ -135,6 +140,55 @@ const Channel = () => {
     [channel, userData, mutateChat],
   );
 
+  // 이미지 업로드
+  const onChangeFile = useCallback((e) => {
+    const formData = new FormData();
+    if (e.target.files) {
+      // Use DataTransferItemList interface to access the file(s)
+      for (let i = 0; i < e.target.files.length; i++) {
+        const file = e.target.files[i].getAsFile();
+        console.log('... file[' + i + '].name = ' + file.name);
+        formData.append('image', file);
+      }
+    }
+    axios.post(`/api/workspaces/${workspace}/channels/${channel}/images`, formData).then(() => {});
+  }, []);
+
+  const onDrop = useCallback(
+    (e) => {
+      e.preventDefault();
+      console.log(e);
+      const formData = new FormData();
+      if (e.dataTransfer.items) {
+        // Use DataTransferItemList interface to access the file(s)
+        for (let i = 0; i < e.dataTransfer.items.length; i++) {
+          // If dropped items aren't files, reject them
+          if (e.dataTransfer.items[i].kind === 'file') {
+            const file = e.dataTransfer.items[i].getAsFile();
+            console.log(e, '.... file[' + i + '].name = ' + file.name);
+            formData.append('image', file);
+          }
+        }
+      } else {
+        // Use DataTransfer interface to access the file(s)
+        for (let i = 0; i < e.dataTransfer.files.length; i++) {
+          console.log(e, '... file[' + i + '].name = ' + e.dataTransfer.files[i].name);
+          formData.append('image', e.dataTransfer.files[i]);
+        }
+      }
+      axios.post(`/api/workspaces/${workspace}/channels/${channel}/images`, formData).then(() => {
+        setDragOver(false);
+      });
+    },
+    [workspace, channel],
+  );
+
+  const onDragOver = useCallback((e) => {
+    e.preventDefault();
+    console.log(e);
+    setDragOver(true);
+  }, []);
+
   useEffect(() => {
     socket?.on('message', onMessage);
 
@@ -142,6 +196,17 @@ const Channel = () => {
       socket?.off('message', onMessage);
     };
   }, [socket, onMessage]);
+
+  // 로딩 시 스크롤바 제일 아래로
+  useEffect(() => {
+    if (chatData?.length === 1) {
+      console.log('toBottomWhenLoaded', scrollbarRef.current);
+      setTimeout(() => {
+        console.log('scrollbar', scrollbarRef.current);
+        scrollbarRef.current?.scrollToBottom();
+      }, 500);
+    }
+  }, [chatData]);
 
   // 페이지 진입 시 시점 localStorage에 저장
   useEffect(() => {
@@ -155,7 +220,7 @@ const Channel = () => {
   const chatSections = makeChatSection(chatData ? chatData.flat().reverse() : []);
 
   return (
-    <Container>
+    <Container onDrop={onDrop} onDragOver={onDragOver}>
       <ChannelContent>
         <ChannelHeader />
         <ChannelChat>
@@ -167,6 +232,7 @@ const Channel = () => {
             isReachingEnd={isReachingEnd}
           />
           <ChatBox chat={chat} onChangeChat={onChangeChat} onSubmitForm={onSubmitForm} />
+          {dragOver && <DragOver>Upload!</DragOver>}
         </ChannelChat>
       </ChannelContent>
       <ChannelMembers />

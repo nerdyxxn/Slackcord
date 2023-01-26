@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, VFC } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Container, Header } from './styles';
 import Avatar from 'boring-avatars';
 import useSWR from 'swr';
@@ -15,6 +15,7 @@ import useInput from '@hooks/useInput';
 import makeChatSection from '@utils/makeChatSection';
 import { Scrollbars } from 'react-custom-scrollbars';
 import useSocket from '@hooks/useSocket';
+import { DragOver } from '@components/Channel/styles';
 
 const DirectMessage = () => {
   const { workspace, id } = useParams<{ workspace: string; id: string }>();
@@ -50,6 +51,7 @@ const DirectMessage = () => {
     isEmpty || (chatData && chatData[chatData.length - 1]?.length < 20) || false;
   const [chat, onChangeChat, setChat] = useInput('');
   const scrollbarRef = useRef<Scrollbars>(null);
+  const [dragOver, setDragOver] = useState(false);
 
   const onSubmitForm = useCallback(
     (e) => {
@@ -124,6 +126,43 @@ const DirectMessage = () => {
     [id, myData, mutateChat],
   );
 
+  // 이미지 업로드
+  const onDrop = useCallback(
+    (e) => {
+      e.preventDefault();
+      console.log(e);
+      const formData = new FormData();
+      if (e.dataTransfer.items) {
+        // Use DataTransferItemList interface to access the file(s)
+        for (let i = 0; i < e.dataTransfer.items.length; i++) {
+          // If dropped items aren't files, reject them
+          if (e.dataTransfer.items[i].kind === 'file') {
+            const file = e.dataTransfer.items[i].getAsFile();
+            console.log('... file[' + i + '].name = ' + file.name);
+            formData.append('image', file);
+          }
+        }
+      } else {
+        // Use DataTransfer interface to access the file(s)
+        for (let i = 0; i < e.dataTransfer.files.length; i++) {
+          console.log('... file[' + i + '].name = ' + e.dataTransfer.files[i].name);
+          formData.append('image', e.dataTransfer.files[i]);
+        }
+      }
+      axios.post(`/api/workspaces/${workspace}/dms/${id}/images`, formData).then(() => {
+        setDragOver(false);
+        mutateChat();
+      });
+    },
+    [mutateChat, workspace, id],
+  );
+
+  const onDragOver = useCallback((e) => {
+    e.preventDefault();
+    console.log(e);
+    setDragOver(true);
+  }, []);
+
   useEffect(() => {
     socket?.on('dm', onMessage);
 
@@ -151,7 +190,7 @@ const DirectMessage = () => {
   const chatSections = makeChatSection(chatData ? chatData.flat().reverse() : []);
 
   return (
-    <Container>
+    <Container onDrop={onDrop} onDragOver={onDragOver}>
       <Header>
         <Avatar
           size={24}
@@ -169,6 +208,7 @@ const DirectMessage = () => {
         isReachingEnd={isReachingEnd}
       />
       <ChatBox chat={chat} onChangeChat={onChangeChat} onSubmitForm={onSubmitForm} />
+      {dragOver && <DragOver>Upload!</DragOver>}
       <ToastContainer />
     </Container>
   );
