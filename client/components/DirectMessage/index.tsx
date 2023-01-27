@@ -39,7 +39,7 @@ const DirectMessage = () => {
         if (data?.length === 1) {
           setTimeout(() => {
             scrollbarRef.current?.scrollToBottom();
-          }, 100);
+          }, 50);
         }
       },
     },
@@ -110,7 +110,7 @@ const DirectMessage = () => {
               console.log('scrollToBottom!', scrollbarRef.current?.getValues());
               setTimeout(() => {
                 scrollbarRef.current?.scrollToBottom();
-              }, 100);
+              }, 50);
             } else {
               toast.success('새 메시지가 도착했습니다.', {
                 onClick() {
@@ -126,7 +126,19 @@ const DirectMessage = () => {
     [id, myData, mutateChat],
   );
 
-  // 이미지 업로드
+  useEffect(() => {
+    socket?.on('dm', onMessage);
+
+    return () => {
+      socket?.off('dm', onMessage);
+    };
+  }, [socket, onMessage]);
+
+  // 페이지 진입 시 시점 localStorage에 저장
+  useEffect(() => {
+    localStorage.setItem(`${workspace}-${id}`, new Date().getTime().toString());
+  }, [workspace, id]);
+
   const onDrop = useCallback(
     (e) => {
       e.preventDefault();
@@ -151,10 +163,11 @@ const DirectMessage = () => {
       }
       axios.post(`/api/workspaces/${workspace}/dms/${id}/images`, formData).then(() => {
         setDragOver(false);
+        localStorage.setItem(`${workspace}-${id}`, new Date().getTime().toString());
         mutateChat();
       });
     },
-    [mutateChat, workspace, id],
+    [workspace, id, mutateChat],
   );
 
   const onDragOver = useCallback((e) => {
@@ -163,25 +176,12 @@ const DirectMessage = () => {
     setDragOver(true);
   }, []);
 
-  useEffect(() => {
-    socket?.on('dm', onMessage);
-
-    return () => {
-      socket?.off('dm', onMessage);
-    };
-  }, [socket, onMessage]);
-
-  // 페이지 진입 시 시점 localStorage에 저장
-  useEffect(() => {
-    localStorage.setItem(`${workspace}-${id}`, new Date().getTime().toString());
-  }, [workspace, id]);
-
   // 페이지 로딩 시, 스크롤바 제일 아래로 보내기
-  useEffect(() => {
-    if (chatData?.length === 1) {
-      scrollbarRef.current?.scrollToBottom();
-    }
-  }, [chatData]);
+  // useEffect(() => {
+  //   if (chatData?.length === 1) {
+  //     scrollbarRef.current?.scrollToBottom();
+  //   }
+  // }, [chatData]);
 
   if (!userData || !myData) {
     return null;

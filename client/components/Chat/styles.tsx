@@ -30,7 +30,6 @@ export const ChatWrapper = styled.div`
     & p {
       flex: 0 0 100%;
       margin: 0;
-      height: 18px;
       line-height: 18px;
       padding-top: 2px;
     }
